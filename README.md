@@ -21,6 +21,18 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
         at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:188) ~[spring-context-5.2.6.RELEASE.jar:5.2.6.RELEASE]
 ```
 
+`mvn dependency:tree | grep junit`
+
+```log
+[INFO]    +- org.junit.jupiter:junit-jupiter:jar:5.6.2:test
+[INFO]    |  +- org.junit.jupiter:junit-jupiter-api:jar:5.6.2:test
+[INFO]    |  |  \- org.junit.platform:junit-platform-commons:jar:1.6.2:test
+[INFO]    |  +- org.junit.jupiter:junit-jupiter-params:jar:5.6.2:test
+[INFO]    |  \- org.junit.jupiter:junit-jupiter-engine:jar:5.6.2:test
+[INFO]    |     \- org.junit.platform:junit-platform-engine:jar:1.6.2:test
+[INFO]    +- org.mockito:mockito-junit-jupiter:jar:3.3.3:test
+```
+
 ## Reference
 
 - [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
