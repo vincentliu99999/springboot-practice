@@ -5,6 +5,9 @@
 ## Scripts
 
 ```shell
+# display project dependencies
+mvn dependency:tree
+
 ./mvnw install -f ./pom.xml
 ./mvnw clean -f ./pom.xml
 ./mvnw spring-boot:run
