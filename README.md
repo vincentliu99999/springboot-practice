@@ -7,6 +7,8 @@
 ```shell
 # display project dependencies
 mvn dependency:tree
+mvn test
+mvn -Dtest=HelloControllerTest test
 
 ./mvnw install -f ./pom.xml
 ./mvnw clean -f ./pom.xml
@@ -36,3 +38,5 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
 ## Reference
 
 - [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
+- [Testing the Web Layer](https://spring.io/guides/gs/testing-web/)
+- [How to run unit test with Maven &#8211; Mkyong.com](https://mkyong.com/maven/how-to-run-unit-test-with-maven/)
