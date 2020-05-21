@@ -14,6 +14,7 @@ mvn -Dtest=HelloControllerTest test
 ./mvnw clean -f ./pom.xml
 ./mvnw spring-boot:run
 curl localhost:8080
+curl http://localhost:8080/swagger-ui.html
 ```
 
 ## Logs
@@ -42,7 +43,7 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
 ## Swagger
 
 - [API Documentation &amp; Design Tools for Teams | Swagger](https://swagger.io/)
-- [springdoc-openapi](https://springdoc.org/)
+- [springdoc-openapi](https://springdoc.org/) <https://github.com/springdoc/springdoc-openapi>
 - [在 Spring Boot 项目中使用 Swagger 文档](https://www.ibm.com/developerworks/cn/java/j-using-swagger-in-a-spring-boot-project/index.html)
 
 ## Reference
