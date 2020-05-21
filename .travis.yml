@@ -17,7 +17,7 @@ before_install: skip
 install: skip
 
 before_script:
-  - mvn test
+  - ./scripts/run-tests.sh
 script: skip
 after_script: skip
 

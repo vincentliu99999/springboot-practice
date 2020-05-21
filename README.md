@@ -35,6 +35,10 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
 [INFO]    +- org.mockito:mockito-junit-jupiter:jar:3.3.3:test
 ```
 
+## Travis
+
+[Job Lifecycle](https://docs.travis-ci.com/user/job-lifecycle/)
+
 ## Reference
 
 - [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
