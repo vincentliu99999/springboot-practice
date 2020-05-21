@@ -27,6 +27,6 @@ public class TestingWebApplicationTest {
   @Test
   public void shouldReturnDefaultMessageHello() throws Exception {
     this.mockMvc.perform(get("/hello")).andDo(print()).andExpect(status().isOk())
-        .andExpect(content().string(containsString("Greetings from Spring Boot!")));
+        .andExpect(content().string(containsString("hello")));
   }
 }
