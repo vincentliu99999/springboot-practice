@@ -6,3 +6,9 @@
 # mvn test -B
 # mvnw wrapper: ./mvnw test -B
 language: java
+
+jdk:
+  - oraclejdk8
+  - oraclejdk11
+  - openjdk10
+  - openjdk11
