@@ -1,0 +1,8 @@
+# Before running the build, Travis CI installs dependencies:
+# mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+# mvnw wrapper: ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+# pom.xml Travis CI builds your project with Maven 3
+# mvn test -B
+# mvnw wrapper: ./mvnw test -B
+language: java
