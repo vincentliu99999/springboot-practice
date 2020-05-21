@@ -39,6 +39,12 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
 
 [Job Lifecycle](https://docs.travis-ci.com/user/job-lifecycle/)
 
+## Swagger
+
+- [API Documentation &amp; Design Tools for Teams | Swagger](https://swagger.io/)
+- [springdoc-openapi](https://springdoc.org/)
+- [在 Spring Boot 项目中使用 Swagger 文档](https://www.ibm.com/developerworks/cn/java/j-using-swagger-in-a-spring-boot-project/index.html)
+
 ## Reference
 
 - [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
