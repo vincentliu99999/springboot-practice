@@ -45,6 +45,14 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
 - [springdoc-openapi](https://springdoc.org/)
 - [在 Spring Boot 项目中使用 Swagger 文档](https://www.ibm.com/developerworks/cn/java/j-using-swagger-in-a-spring-boot-project/index.html)
 
+## Dockerfile
+
+1. add Dockerfile
+
+```shell
+docker build -t springboot/practice .
+```
+
 ## Reference
 
 - [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
