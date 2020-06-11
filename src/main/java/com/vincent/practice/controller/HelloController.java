@@ -16,4 +16,14 @@ public class HelloController {
     return "hello";
   }
 
+  @RequestMapping("/greeting")
+  public String greeting() {
+    return "greeting";
+  }
+
+  @RequestMapping("/greeting2")
+  public String greeting2() {
+    return "greeting2";
+  }
+
 }

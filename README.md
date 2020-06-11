@@ -12,6 +12,7 @@ mvn -Dtest=HelloControllerTest test
 
 ./mvnw install -f ./pom.xml
 ./mvnw clean -f ./pom.xml
+./mvnw package -f ./pom.xml
 ./mvnw spring-boot:run
 curl localhost:8080
 ```
