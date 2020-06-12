@@ -13,6 +13,8 @@ mvn test
 mvn -Dtest=HelloControllerTest test
 
 mvn dependency:tree # display project dependencies
+
+curl localhost:8081/actuator/health
 ```
 
 ## SpringBoot with Maven
