@@ -2,20 +2,44 @@
 
 [Spring Initializr](https://start.spring.io/)
 
-## Scripts
+## Maven
 
 ```shell
 # display project dependencies
 mvn dependency:tree
 mvn test
 mvn -Dtest=HelloControllerTest test
+```
 
-./mvnw spring-boot:run
+## SpringBoot with Maven
+
+```shell
 ./mvnw install -f ./pom.xml
 ./mvnw clean -f ./pom.xml
+```
+
+### Run Application
+
+```shell
+# 1
 ./mvnw spring-boot:run
+
+# 2
+./mvnw clean package
+java -jar target/practice-0.0.1-SNAPSHOT.jar
+
+# test
 curl localhost:8080
 ```
+
+### Note
+
+- `@RestController` = `@Controller` + `@ResponseBody`
+- `MappingJackson2HttpMessageConverter` convert Object to JSON
+- @SpringBootApplication
+  - @Configuration
+  - @EnableAutoConfiguration
+  - @ComponentScan
 
 ## Logs
 
