@@ -31,6 +31,9 @@ curl localhost:8081/actuator/health
 ./mvnw spring-boot:run
 
 # 2
+mvn spring-boot:run
+
+# 3
 ./mvnw clean package
 java -jar target/practice-0.0.1-SNAPSHOT.jar
 
