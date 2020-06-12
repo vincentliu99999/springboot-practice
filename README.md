@@ -5,6 +5,8 @@
 ## Maven
 
 ```shell
+mvn -v
+
 # display project dependencies
 mvn dependency:tree
 mvn test
