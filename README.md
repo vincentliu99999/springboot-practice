@@ -6,6 +6,7 @@
 
 ```shell
 mvn -v
+mvn compile
 
 # display project dependencies
 mvn dependency:tree
