@@ -8,6 +8,7 @@
 mvn -v
 mvn compile
 mvn package # compile + test
+mvn install # conpile + test + package dependency
 
 # display project dependencies
 mvn dependency:tree
