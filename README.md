@@ -6,7 +6,7 @@
 
 ```shell
 mvn -v
-mvn compile
+mvn compile # compile classes to target/classes
 mvn package # compile + test
 mvn install # conpile + test + package dependency
 mvn test
