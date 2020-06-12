@@ -36,6 +36,7 @@ mvn spring-boot:run
 # 3
 ./mvnw clean package
 java -jar target/practice-0.0.1-SNAPSHOT.jar
+jar tvf target/practice-0.0.1-SNAPSHOT.jar
 
 # test
 curl localhost:8080
