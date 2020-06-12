@@ -10,6 +10,7 @@ mvn dependency:tree
 mvn test
 mvn -Dtest=HelloControllerTest test
 
+./mvnw spring-boot:run
 ./mvnw install -f ./pom.xml
 ./mvnw clean -f ./pom.xml
 ./mvnw spring-boot:run
