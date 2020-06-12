@@ -9,11 +9,10 @@ mvn -v
 mvn compile
 mvn package # compile + test
 mvn install # conpile + test + package dependency
-
-# display project dependencies
-mvn dependency:tree
 mvn test
 mvn -Dtest=HelloControllerTest test
+
+mvn dependency:tree # display project dependencies
 ```
 
 ## SpringBoot with Maven
