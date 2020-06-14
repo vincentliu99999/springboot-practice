@@ -24,8 +24,6 @@ curl localhost:8081/actuator/health
 ./mvnw clean -f ./pom.xml
 ```
 
-`@SpringBootApplication` = `@EnableAutoConfiguration` + `@ComponentScan` + `@Configuration`
-
 ### Run Application
 
 ```shell
