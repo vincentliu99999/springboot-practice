@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
+@SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan
 public class PracticeApplication {
 
   public static void main(String[] args) {
