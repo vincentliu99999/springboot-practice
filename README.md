@@ -15,6 +15,9 @@ mvn -Dtest=HelloControllerTest test
 ./mvnw package -f ./pom.xml
 ./mvnw spring-boot:run
 curl localhost:8080
+
+./mvnw package && java -jar target/practice-0.0.1-SNAPSHOT.jar
+curl localhost:8080/hello
 ```
 
 ## Logs
@@ -51,7 +54,10 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
 1. add Dockerfile
 
 ```shell
+# image tage as springboot/practice
 docker build -t springboot/practice .
+
+docker run -p 8080:8080 springboot/practice
 ```
 
 ## Reference
