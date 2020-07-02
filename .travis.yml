@@ -16,11 +16,15 @@ jdk:
 before_install: skip
 install: skip
 
-before_script:
-  - ./scripts/run-tests.sh
-script: skip
-after_script: skip
-
+# before_script:
+#   - ./scripts/run-tests.sh
+script:
+  - ls -al
+  - echo $TRAVIS_BUILD_DIR
+  - echo $TRAVIS_BUILD_WEB_URL
+  - zip -r springboot-practice.zip .
+after_script:
+  - md5sum $TRAVIS_BUILD_DIR/springboot-practice.zip
 before_cache: skip
 after_success: skip
 after_failure: skip
