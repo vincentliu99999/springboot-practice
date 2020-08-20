@@ -23,6 +23,8 @@ script:
   - echo $TRAVIS_BUILD_DIR
   - echo $TRAVIS_BUILD_WEB_URL
   - zip -r springboot-practice.zip .
+  # - mvn test --batch-mode
+  - mvn checkstyle:check # --batch-mode --fail-never
 after_script:
   - md5sum $TRAVIS_BUILD_DIR/springboot-practice.zip
 before_cache: skip
