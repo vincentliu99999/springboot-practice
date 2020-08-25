@@ -1,0 +1,14 @@
+{
+  // "maven.view": "hierarchical",
+  "java.home": "/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home",
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml",
+  "java.format.settings.profile": "GoogleStyle",
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  // "java.checkstyle.configuration": "/google_checks.xml"
+}

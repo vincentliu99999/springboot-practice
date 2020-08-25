@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - Variable",
+      "request": "launch",
+      "mainClass": "com.vincent.basic.Variable",
+      "projectName": "practice"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-PracticeApplication<practice>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.vincent.practice.PracticeApplication",
+      "projectName": "practice",
+      "args": ""
+    }
+  ]
+}
