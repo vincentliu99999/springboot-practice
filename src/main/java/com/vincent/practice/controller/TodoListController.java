@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeAction;
 import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValueUpdate;
 import software.amazon.awssdk.services.dynamodb.model.DescribeTableRequest;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 import software.amazon.awssdk.services.dynamodb.model.ListTablesRequest;
@@ -21,6 +23,7 @@ import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughputDescr
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.dynamodb.model.TableDescription;
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 
 @RestController
 @RequestMapping(value = "/todo")
@@ -144,6 +147,44 @@ public class TodoListController {
     } catch (DynamoDbException e) {
       System.err.println(e.getMessage());
       return e.getMessage();
+    }
+
+    return "xxx";
+  }
+
+  @PostMapping("/updateTodo")
+  public String updateTodo(@RequestParam(value = "pk", defaultValue = "pk") String pk,
+      @RequestParam(value = "sk", defaultValue = "sk") String sk) {
+    String tableName = "Todo";
+
+    HashMap<String,AttributeValue> itemKey = new HashMap<String,AttributeValue>();
+
+    itemKey.put("pk", AttributeValue.builder().s(pk).build());
+    itemKey.put("sk", AttributeValue.builder().s(sk).build());
+
+    HashMap<String,AttributeValueUpdate> updatedValues =
+            new HashMap<String,AttributeValueUpdate>();
+
+    // Update the column specified by name with updatedVal
+    updatedValues.put("todo", AttributeValueUpdate.builder()
+            .value(AttributeValue.builder().s("haha").build())
+            .action(AttributeAction.PUT)
+            .build());
+
+    UpdateItemRequest request = UpdateItemRequest.builder()
+            .tableName(tableName)
+            .key(itemKey)
+            .attributeUpdates(updatedValues)
+            .build();
+
+    try {
+        ddb.updateItem(request);
+    } catch (ResourceNotFoundException e) {
+        System.err.println(e.getMessage());
+        return e.getMessage();
+      } catch (DynamoDbException e) {
+        System.err.println(e.getMessage());
+        return e.getMessage();
     }
 
     return "xxx";
