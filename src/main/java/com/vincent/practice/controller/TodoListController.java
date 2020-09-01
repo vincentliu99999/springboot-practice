@@ -1,9 +1,14 @@
 package com.vincent.practice.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import com.vincent.practice.model.Todo;
+import com.vincent.practice.repository.TodoRepository;
+import com.vincent.practice.repository.ddbmapper.DDBModelException;
+import com.vincent.practice.repository.ddbmapper.NOKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +43,9 @@ public class TodoListController {
   public DynamoDbClient getDynamoDbClient() {
     return ddb;
   }
+
+  @Autowired
+  private TodoRepository todoRepository;
 
   @GetMapping("/listTables")
   public List<String> listTables() {
@@ -157,37 +165,54 @@ public class TodoListController {
       @RequestParam(value = "sk", defaultValue = "sk") String sk) {
     String tableName = "Todo";
 
-    HashMap<String,AttributeValue> itemKey = new HashMap<String,AttributeValue>();
+    HashMap<String, AttributeValue> itemKey = new HashMap<String, AttributeValue>();
 
     itemKey.put("pk", AttributeValue.builder().s(pk).build());
     itemKey.put("sk", AttributeValue.builder().s(sk).build());
 
-    HashMap<String,AttributeValueUpdate> updatedValues =
-            new HashMap<String,AttributeValueUpdate>();
+    HashMap<String, AttributeValueUpdate> updatedValues =
+        new HashMap<String, AttributeValueUpdate>();
 
     // Update the column specified by name with updatedVal
     updatedValues.put("todo", AttributeValueUpdate.builder()
-            .value(AttributeValue.builder().s("haha").build())
-            .action(AttributeAction.PUT)
-            .build());
+        .value(AttributeValue.builder().s("haha").build()).action(AttributeAction.PUT).build());
 
-    UpdateItemRequest request = UpdateItemRequest.builder()
-            .tableName(tableName)
-            .key(itemKey)
-            .attributeUpdates(updatedValues)
-            .build();
+    UpdateItemRequest request = UpdateItemRequest.builder().tableName(tableName).key(itemKey)
+        .attributeUpdates(updatedValues).build();
 
     try {
-        ddb.updateItem(request);
+      ddb.updateItem(request);
     } catch (ResourceNotFoundException e) {
-        System.err.println(e.getMessage());
-        return e.getMessage();
-      } catch (DynamoDbException e) {
-        System.err.println(e.getMessage());
-        return e.getMessage();
+      System.err.println(e.getMessage());
+      return e.getMessage();
+    } catch (DynamoDbException e) {
+      System.err.println(e.getMessage());
+      return e.getMessage();
     }
 
     return "xxx";
+  }
+
+  @PostMapping("/testGet")
+  public Todo testGet(@RequestParam(value = "pk2", defaultValue = "pk2") String pk,
+      @RequestParam(value = "sk2", defaultValue = "sk2") String sk)
+      throws IllegalArgumentException, IllegalAccessException, InstantiationException,
+      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
+    return todoRepository.testGet(pk, sk);
+  }
+
+  @PostMapping("/testSave")
+  public Todo testSave(@RequestParam(value = "pk", defaultValue = "pk") String pk,
+      @RequestParam(value = "sk", defaultValue = "sk") String sk,
+      @RequestParam(value = "todo", defaultValue = "todo") String desc)
+      throws IllegalArgumentException, IllegalAccessException, InstantiationException,
+      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
+    Todo todo = new Todo();
+    todo.setPk(pk);
+    todo.setSk(sk);
+    todo.setTodo(desc);
+    todo.setDesc(desc);
+    return todoRepository.testSave(todo);
   }
 
 }
