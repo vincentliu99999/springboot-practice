@@ -7,6 +7,7 @@ import com.vincent.practice.repository.ddbmapper.DDBModelException;
 import com.vincent.practice.repository.ddbmapper.NOKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class TodoListControllerV2 {
   @Autowired
   private TodoRepository todoRepository;
+
+  @PostMapping("/saveTodo")
+  public Todo saveTodo(@RequestBody Todo todo)
+      throws IllegalAccessException, InstantiationException,
+      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
+    return todoRepository.testSave(todo);
+  }
 
   @PostMapping("/testGet")
   public Todo testGet(@RequestParam(value = "pk2", defaultValue = "pk2") String pk,
