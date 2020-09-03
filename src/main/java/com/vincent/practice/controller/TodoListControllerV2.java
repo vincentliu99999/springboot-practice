@@ -20,16 +20,16 @@ public class TodoListControllerV2 {
 
   @PostMapping("/saveTodo")
   public Todo saveTodo(@RequestBody Todo todo)
-      throws IllegalAccessException, InstantiationException,
-      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException {
     return todoRepository.saveTodoItem(todo);
   }
 
   @PostMapping("/testGet")
   public Todo testGet(@RequestParam(value = "pk2", defaultValue = "pk2") String pk,
       @RequestParam(value = "sk2", defaultValue = "sk2") String sk)
-      throws IllegalAccessException, InstantiationException,
-      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException {
     return todoRepository.testGet(pk, sk);
   }
 
@@ -43,6 +43,12 @@ public class TodoListControllerV2 {
     todo.setSk(sk);
     todo.setTask(desc);
     return todoRepository.saveTodoItem(todo);
+  }
+
+  @PostMapping("/updateTodoDone")
+  public Todo updateTodoDone(@RequestBody Todo todo) throws IllegalAccessException,
+      DDBModelException, ClassNotFoundException, InstantiationException, ParseException {
+    return todoRepository.updateDone(todo);
   }
 
 }
