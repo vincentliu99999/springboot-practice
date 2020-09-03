@@ -20,7 +20,7 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
 
   private static final String TABLE_NAME = "Todo";
 
-  public Todo testGet(String pk, String sk)
+  public Todo getTodoByPk(String pk, String sk)
       throws IllegalArgumentException, IllegalAccessException, InstantiationException,
       ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
     Todo todo = new Todo();

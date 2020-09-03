@@ -30,7 +30,7 @@ public class TodoListControllerV2 {
       @RequestParam(value = "sk2", defaultValue = "sk2") String sk)
       throws IllegalAccessException, InstantiationException, ClassNotFoundException,
       DDBModelException, NOKeyException, ParseException {
-    return todoRepository.testGet(pk, sk);
+    return todoRepository.getTodoByPk(pk, sk);
   }
 
   @PostMapping("/testSave")
