@@ -30,6 +30,7 @@ import software.amazon.awssdk.services.dynamodb.model.BatchGetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.BatchWriteItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.KeysAndAttributes;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
@@ -66,8 +67,10 @@ public abstract class DynamoCRUDRepository<T> {
 		if (meta.getRangeKeyName() != null)
 			attributeMap.put(meta.getRangeKeyName(), meta.getRangeKeyAttributeValue());
 
-		GetItemRequest request = GetItemRequest.builder().key(attributeMap).tableName(meta.getTableName()).build();
-		Map<String, AttributeValue> returnMap = ddb.getItem(request).item();
+    GetItemRequest request = GetItemRequest.builder().key(attributeMap).tableName(meta.getTableName()).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+    GetItemResponse response = ddb.getItem(request);
+    logger.info(response.consumedCapacity().toString());
+		Map<String, AttributeValue> returnMap = response.item();
 		if (returnMap != null && !returnMap.keySet().isEmpty()) {
 			T newT = (T) t.getClass().newInstance();
 			DDBMapper.populateEntity(newT, returnMap);
