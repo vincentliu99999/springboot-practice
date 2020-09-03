@@ -21,6 +21,8 @@ import com.vincent.practice.repository.ddbmapper.DDBMapper;
 import com.vincent.practice.repository.ddbmapper.DDBModelException;
 import com.vincent.practice.repository.ddbmapper.DDBTableMeta;
 import com.vincent.practice.repository.ddbmapper.NOKeyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
@@ -30,18 +32,23 @@ import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.KeysAndAttributes;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.PutItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest.Builder;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
+import software.amazon.awssdk.services.dynamodb.model.ReturnConsumedCapacity;
 import software.amazon.awssdk.services.dynamodb.model.ReturnValue;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.WriteRequest;
 
 public abstract class DynamoCRUDRepository<T> {
 
 	private static final Encoder encoder = Base64.getUrlEncoder();
 
-	private static final Decoder decoder = Base64.getUrlDecoder();
+  private static final Decoder decoder = Base64.getUrlDecoder();
+  
+  private static final Logger logger = LoggerFactory.getLogger(DynamoCRUDRepository.class);
 
 	@Autowired
 	private DynamoDbClient ddb;
@@ -121,8 +128,9 @@ public abstract class DynamoCRUDRepository<T> {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.PUT_MODE);
 		HashMap<String, AttributeValue> attributeMap = meta.getAttributeMap();
 
-		PutItemRequest request = PutItemRequest.builder().tableName(meta.getTableName()).item(attributeMap).build();
-		ddb.putItem(request);
+    PutItemRequest request = PutItemRequest.builder().tableName(meta.getTableName()).item(attributeMap).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+    PutItemResponse response = ddb.putItem(request);
+    logger.info(response.consumedCapacity().toString());
 		return t;
 	}
 
@@ -141,9 +149,10 @@ public abstract class DynamoCRUDRepository<T> {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.UPDATE_MODE, updateFields);
 
 		UpdateItemRequest request = UpdateItemRequest.builder().tableName(meta.getTableName())
-				.key(meta.getAttributeMap()).attributeUpdates(meta.getUpdatedAttributeMap()).build();
-
-		ddb.updateItem(request);
+        .key(meta.getAttributeMap()).attributeUpdates(meta.getUpdatedAttributeMap()).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+    
+    UpdateItemResponse response = ddb.updateItem(request);
+    logger.info(response.consumedCapacity().toString());
 		return t;
 	}
 
