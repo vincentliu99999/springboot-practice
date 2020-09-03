@@ -23,7 +23,7 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
     return this.getItem(todo);
   }
 
-  public Todo testSave(Todo todo)
+  public Todo saveTodoItem(Todo todo)
       throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException {
     return this.saveItem(todo);
   }

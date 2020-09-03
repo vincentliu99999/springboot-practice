@@ -22,7 +22,7 @@ public class TodoListControllerV2 {
   public Todo saveTodo(@RequestBody Todo todo)
       throws IllegalAccessException, InstantiationException,
       ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
-    return todoRepository.testSave(todo);
+    return todoRepository.saveTodoItem(todo);
   }
 
   @PostMapping("/testGet")
@@ -41,9 +41,8 @@ public class TodoListControllerV2 {
     Todo todo = new Todo();
     todo.setPk(pk);
     todo.setSk(sk);
-    todo.setTodo(desc);
-    todo.setDesc(desc);
-    return todoRepository.testSave(todo);
+    todo.setTask(desc);
+    return todoRepository.saveTodoItem(todo);
   }
 
 }

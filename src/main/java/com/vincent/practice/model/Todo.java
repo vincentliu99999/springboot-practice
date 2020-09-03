@@ -1,5 +1,7 @@
 package com.vincent.practice.model;
 
+import java.util.Date;
+import com.vincent.practice.repository.ddbmapper.annotation.DDBAttr;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBHashKey;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBRangeKey;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBTable;
@@ -11,8 +13,11 @@ public class Todo {
   private String pk;
   @DDBRangeKey(name = "sk")
   private String sk;
-  private String todo;
-  private String desc;
+  private String task;
+  private boolean done = false;
+  @DDBAttr(name="createDate", updateable = false)
+  private Date createDate = new Date();
+  private Date updateDate = new Date();
 
   public String getPk() {
     return pk;
@@ -30,20 +35,36 @@ public class Todo {
     this.sk = sk;
   }
 
-  public String getDesc() {
-    return desc;
+  public String getTask() {
+    return task;
   }
 
-  public void setDesc(String desc) {
-    this.desc = desc;
+  public void setTask(String task) {
+    this.task = task;
   }
 
-  public String getTodo() {
-    return todo;
+  public boolean isDone() {
+    return done;
   }
 
-  public void setTodo(String todo) {
-    this.todo = todo;
+  public void setDone(boolean done) {
+    this.done = done;
   }
-  
+
+  public Date getCreateDate() {
+    return createDate;
+  }
+
+  public void setCreateDate(Date createDate) {
+    this.createDate = createDate;
+  }
+
+  public Date getUpdateDate() {
+    return updateDate;
+  }
+
+  public void setUpdateDate(Date updateDate) {
+    this.updateDate = updateDate;
+  }
+
 }

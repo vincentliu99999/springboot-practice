@@ -210,9 +210,8 @@ public class TodoListController {
     Todo todo = new Todo();
     todo.setPk(pk);
     todo.setSk(sk);
-    todo.setTodo(desc);
-    todo.setDesc(desc);
-    return todoRepository.testSave(todo);
+    todo.setTask(desc);
+    return todoRepository.saveTodoItem(todo);
   }
 
 }
