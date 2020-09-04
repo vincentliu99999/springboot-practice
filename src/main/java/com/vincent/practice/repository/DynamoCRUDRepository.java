@@ -61,11 +61,11 @@ public abstract class DynamoCRUDRepository<T> {
 		return ddb;
 	}
 
-	public T getItem(T t) throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException,
+	public T getItem(T t) throws IllegalAccessException, DDBModelException, NOKeyException,
 			InstantiationException, ClassNotFoundException, ParseException {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.GET_MODE);
 
-		HashMap<String, AttributeValue> attributeMap = new HashMap<String, AttributeValue>();
+		HashMap<String, AttributeValue> attributeMap = new HashMap<>();
 		attributeMap.put(meta.getHashKeyName(), meta.getHashKeyAttributeValue());
 		if (meta.getRangeKeyName() != null)
 			attributeMap.put(meta.getRangeKeyName(), meta.getRangeKeyAttributeValue());
@@ -84,11 +84,11 @@ public abstract class DynamoCRUDRepository<T> {
 		return null;
 	}
 
-	public List<T> queryByPartitionKey(T t) throws IllegalArgumentException, IllegalAccessException,
+	public List<T> queryByPartitionKey(T t) throws IllegalAccessException,
 			ClassNotFoundException, InstantiationException, DDBModelException, ParseException, NOKeyException {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.GET_MODE);
 
-		HashMap<String, AttributeValue> attrValue = new HashMap<String, AttributeValue>();
+		HashMap<String, AttributeValue> attrValue = new HashMap<>();
 		attrValue.put(":pk", meta.getHashKeyAttributeValue());
 
 		QueryRequest queryReq = QueryRequest.builder().tableName(meta.getTableName())
@@ -99,7 +99,7 @@ public abstract class DynamoCRUDRepository<T> {
 
     List<Map<String, AttributeValue>> returnMap = response.items();
     
-		List<T> retNewListT = new ArrayList<T>();
+		List<T> retNewListT = new ArrayList<>();
 		for (Map<String, AttributeValue> map : returnMap) {
 			T newT = (T) t.getClass().newInstance();
 			DDBMapper.populateEntity(newT, map);
@@ -108,12 +108,12 @@ public abstract class DynamoCRUDRepository<T> {
 		return retNewListT;
 	}
 
-	public List<T> queryByRangeKey(T t) throws IllegalArgumentException, IllegalAccessException, DDBModelException,
+	public List<T> queryByRangeKey(T t) throws IllegalAccessException, DDBModelException,
 			NOKeyException, InstantiationException, ClassNotFoundException, ParseException {
 
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.GET_MODE);
 
-		HashMap<String, AttributeValue> attrValue = new HashMap<String, AttributeValue>();
+		HashMap<String, AttributeValue> attrValue = new HashMap<>();
 		attrValue.put(":pk", meta.getHashKeyAttributeValue());
 		attrValue.put(":typeRange", meta.getRangeKeyAttributeValue());
 
@@ -126,7 +126,7 @@ public abstract class DynamoCRUDRepository<T> {
     logger.info("queryByRangeKey from {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
 
 		List<Map<String, AttributeValue>> returnMap = ddb.query(queryReq).items();
-		List<T> retNewListT = new ArrayList<T>();
+		List<T> retNewListT = new ArrayList<>();
 		for (Map<String, AttributeValue> map : returnMap) {
 			T newT = (T) t.getClass().newInstance();
 			DDBMapper.populateEntity(newT, map);
@@ -135,7 +135,7 @@ public abstract class DynamoCRUDRepository<T> {
 		return retNewListT;
 	}
 
-	public T saveItem(T t) throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException {
+	public T saveItem(T t) throws IllegalAccessException, DDBModelException, NOKeyException {
 		if (DDBMapper.autoCheckUpdateMode(t, DDBMapper.PUT_MODE)) {
 			return this.updateItem(t);
 		}
@@ -162,7 +162,7 @@ public abstract class DynamoCRUDRepository<T> {
 	 * @throws NOKeyException
 	 */
 	public T updateItem(T t, String... updateFields) // update
-			throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException {
+			throws IllegalAccessException, DDBModelException, NOKeyException {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.UPDATE_MODE, updateFields);
 
 		UpdateItemRequest request = UpdateItemRequest.builder().tableName(meta.getTableName())
@@ -175,7 +175,7 @@ public abstract class DynamoCRUDRepository<T> {
 	}
 
 	public <X extends Object> X counterAdd(X t, String... updateFields)
-			throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException,
+			throws IllegalAccessException, DDBModelException, NOKeyException,
 			ClassNotFoundException, InstantiationException, ParseException {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.COUNT_MODE, updateFields);
 
@@ -192,7 +192,7 @@ public abstract class DynamoCRUDRepository<T> {
 	}
 
 	public int deleteItem(T t)
-			throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException {
+			throws IllegalAccessException, DDBModelException, NOKeyException {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.UPDATE_MODE);
 
 		DeleteItemRequest deleteReq = DeleteItemRequest.builder().tableName(meta.getTableName())
@@ -207,8 +207,8 @@ public abstract class DynamoCRUDRepository<T> {
 	protected List<Map<String, AttributeValue>> batchGetPer100Item(String tableName,
 			List<Map<String, AttributeValue>> keyItem) {
 
-		List<Map<String, AttributeValue>> totalResponseMap = new ArrayList<Map<String, AttributeValue>>();
-		List<Map<String, AttributeValue>> box = new ArrayList<Map<String, AttributeValue>>();
+		List<Map<String, AttributeValue>> totalResponseMap = new ArrayList<>();
+		List<Map<String, AttributeValue>> box = new ArrayList<>();
 		int counter = 0;
 		for (Map<String, AttributeValue> one : keyItem) {
 			box.add(one);
@@ -245,12 +245,12 @@ public abstract class DynamoCRUDRepository<T> {
 
 	protected void batchWritePer25Item(String tableName, List<WriteRequest> keyItem) {
 		int counter = 0;
-		List<WriteRequest> box = new ArrayList<WriteRequest>();
+		List<WriteRequest> box = new ArrayList<>();
 		for (WriteRequest one : keyItem) {
 			box.add(one);
 			counter++;
 			if (counter == 25) {
-				HashMap<String, List<WriteRequest>> map = new HashMap<String, List<WriteRequest>>();
+				HashMap<String, List<WriteRequest>> map = new HashMap<>();
 				map.put(tableName, box);
 				BatchWriteItemRequest batchWriteItemRequest = BatchWriteItemRequest.builder().requestItems(map).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
         BatchWriteItemResponse response = ddb.batchWriteItem(batchWriteItemRequest);
@@ -261,7 +261,7 @@ public abstract class DynamoCRUDRepository<T> {
 			}
 		}
 		if (!box.isEmpty()) {
-			HashMap<String, List<WriteRequest>> map = new HashMap<String, List<WriteRequest>>();
+			HashMap<String, List<WriteRequest>> map = new HashMap<>();
 			map.put(tableName, box);
 			BatchWriteItemRequest batchWriteItemRequest = BatchWriteItemRequest.builder().requestItems(map).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
       BatchWriteItemResponse response = ddb.batchWriteItem(batchWriteItemRequest);
@@ -272,7 +272,7 @@ public abstract class DynamoCRUDRepository<T> {
 
 	protected String encLastEvaluatedKey(Map<String, AttributeValue> lastEvaluatedKey)
 			throws JsonProcessingException, UnsupportedEncodingException {
-		Map<String, Object> newMap = new HashMap<String, Object>();
+		Map<String, Object> newMap = new HashMap<>();
 		for (String key : lastEvaluatedKey.keySet()) {
 			AttributeValue v = lastEvaluatedKey.get(key);
 			if (v.n() != null) {
@@ -289,11 +289,11 @@ public abstract class DynamoCRUDRepository<T> {
 	}
 
 	protected Map<String, AttributeValue> decLastEvaluatedKey(String encString)
-			throws JsonParseException, JsonMappingException, IOException {
+			throws IOException {
 		String json = new String(decoder.decode(encString), "UTF-8");
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, Object> jsonMap = objectMapper.readValue(json, HashMap.class);
-		Map<String, AttributeValue> ret = new HashMap<String, AttributeValue>();
+		Map<String, AttributeValue> ret = new HashMap<>();
 		for (String key : jsonMap.keySet()) {
 			Object v = jsonMap.get(key);
 			if (v instanceof Number) {
@@ -305,9 +305,8 @@ public abstract class DynamoCRUDRepository<T> {
 		return ret;
 	}
 
-	protected PagedResult<T> pagingProcess(Builder builder, Integer pageSize, String cursor) throws JsonParseException,
-			JsonMappingException, IOException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			ClassNotFoundException, DDBModelException, ParseException {
+	protected PagedResult<T> pagingProcess(Builder builder, Integer pageSize, String cursor) throws InstantiationException, IllegalAccessException,
+			ClassNotFoundException, DDBModelException, ParseException, IOException {
 		Class genericClass = ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0]);
 		return this.pagingProcess(builder, pageSize, cursor, (T) genericClass.newInstance());
@@ -331,8 +330,8 @@ public abstract class DynamoCRUDRepository<T> {
 	 * @throws ParseException
 	 */
 	protected PagedResult<T> pagingProcess(Builder builder, Integer pageSize, String cursor, T t)
-			throws JsonParseException, JsonMappingException, IOException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, ClassNotFoundException, DDBModelException,
+			throws IOException, InstantiationException,
+			IllegalAccessException, ClassNotFoundException, DDBModelException,
 			ParseException {
 		PagedResult<T> pager = new PagedResult<T>();
 
@@ -343,18 +342,16 @@ public abstract class DynamoCRUDRepository<T> {
 		}
 		QueryRequest request = builder.returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
 
-		QueryResponse resp = ddb.query(request);
-		List<Map<String, AttributeValue>> returnMap = resp.items();
-		List<T> retNewListT = new ArrayList<T>();
-//		Class genericClass = ((Class) ((ParameterizedType) this.getClass().getGenericSuperclass())
-//				.getActualTypeArguments()[0]);
+		QueryResponse response = ddb.query(request);
+		List<Map<String, AttributeValue>> returnMap = response.items();
+		List<T> retNewListT = new ArrayList<>();
 		for (Map<String, AttributeValue> map : returnMap) {
 			T newT = (T) t.getClass().newInstance();
 			DDBMapper.populateEntity(newT, map);
 			retNewListT.add(newT);
 		}
 
-		Map<String, AttributeValue> lastEvaluatedKey = resp.lastEvaluatedKey();
+		Map<String, AttributeValue> lastEvaluatedKey = response.lastEvaluatedKey();
 		if (lastEvaluatedKey != null && !lastEvaluatedKey.isEmpty()) {
 			while (retNewListT.size() < pageSize && lastEvaluatedKey != null && !lastEvaluatedKey.isEmpty()) {
 				builder.limit(pageSize - retNewListT.size());
