@@ -27,8 +27,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.BatchGetItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.BatchGetItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.BatchWriteItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.BatchWriteItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.DeleteItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.DeleteItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 import software.amazon.awssdk.services.dynamodb.model.KeysAndAttributes;
@@ -69,7 +72,9 @@ public abstract class DynamoCRUDRepository<T> {
 
     GetItemRequest request = GetItemRequest.builder().key(attributeMap).tableName(meta.getTableName()).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
     GetItemResponse response = ddb.getItem(request);
-    logger.info(response.consumedCapacity().toString());
+
+    logger.info("getItem from {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
+
 		Map<String, AttributeValue> returnMap = response.item();
 		if (returnMap != null && !returnMap.keySet().isEmpty()) {
 			T newT = (T) t.getClass().newInstance();
@@ -87,9 +92,13 @@ public abstract class DynamoCRUDRepository<T> {
 		attrValue.put(":pk", meta.getHashKeyAttributeValue());
 
 		QueryRequest queryReq = QueryRequest.builder().tableName(meta.getTableName())
-				.keyConditionExpression(meta.getHashKeyName() + " = :pk").expressionAttributeValues(attrValue).build();
+				.keyConditionExpression(meta.getHashKeyName() + " = :pk").expressionAttributeValues(attrValue).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+    QueryResponse response = ddb.query(queryReq);
 
-		List<Map<String, AttributeValue>> returnMap = ddb.query(queryReq).items();
+    logger.info("queryByPartitionKey from {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
+
+    List<Map<String, AttributeValue>> returnMap = response.items();
+    
 		List<T> retNewListT = new ArrayList<T>();
 		for (Map<String, AttributeValue> map : returnMap) {
 			T newT = (T) t.getClass().newInstance();
@@ -111,7 +120,10 @@ public abstract class DynamoCRUDRepository<T> {
 		QueryRequest queryReq = QueryRequest.builder().tableName(meta.getTableName())
 				.keyConditionExpression(
 						meta.getHashKeyName() + " = :pk and begins_with(" + meta.getRangeKeyName() + ", :typeRange)")
-				.expressionAttributeValues(attrValue).build();
+				.expressionAttributeValues(attrValue).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+    QueryResponse response = ddb.query(queryReq);
+
+    logger.info("queryByRangeKey from {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
 
 		List<Map<String, AttributeValue>> returnMap = ddb.query(queryReq).items();
 		List<T> retNewListT = new ArrayList<T>();
@@ -133,7 +145,9 @@ public abstract class DynamoCRUDRepository<T> {
 
     PutItemRequest request = PutItemRequest.builder().tableName(meta.getTableName()).item(attributeMap).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
     PutItemResponse response = ddb.putItem(request);
-    logger.info(response.consumedCapacity().toString());
+
+    logger.info("saveItem to {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
+
 		return t;
 	}
 
@@ -153,9 +167,10 @@ public abstract class DynamoCRUDRepository<T> {
 
 		UpdateItemRequest request = UpdateItemRequest.builder().tableName(meta.getTableName())
         .key(meta.getAttributeMap()).attributeUpdates(meta.getUpdatedAttributeMap()).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
-    
     UpdateItemResponse response = ddb.updateItem(request);
-    logger.info(response.consumedCapacity().toString());
+
+    logger.info("updateItem to {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
+
 		return t;
 	}
 
@@ -166,9 +181,12 @@ public abstract class DynamoCRUDRepository<T> {
 
 		UpdateItemRequest request = UpdateItemRequest.builder().tableName(meta.getTableName())
 				.key(meta.getAttributeMap()).attributeUpdates(meta.getUpdatedAttributeMap())
-				.returnValues(ReturnValue.ALL_NEW).build();
+				.returnValues(ReturnValue.ALL_NEW).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+    UpdateItemResponse response = ddb.updateItem(request);
 
-		Map<String, AttributeValue> responseMap = ddb.updateItem(request).attributes();
+    logger.info("counterAdd from {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
+
+		Map<String, AttributeValue> responseMap = response.attributes();
 		DDBMapper.populateEntity(t, responseMap);
 		return t;
 	}
@@ -178,9 +196,11 @@ public abstract class DynamoCRUDRepository<T> {
 		DDBTableMeta meta = DDBMapper.extractEntityMeta(t, DDBMapper.UPDATE_MODE);
 
 		DeleteItemRequest deleteReq = DeleteItemRequest.builder().tableName(meta.getTableName())
-				.key(meta.getAttributeMap()).build();
+				.key(meta.getAttributeMap()).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+    DeleteItemResponse response = ddb.deleteItem(deleteReq);
 
-		ddb.deleteItem(deleteReq);
+    logger.info("deleteItem from {} consumedCapacity: {}", meta.getTableName(), response.consumedCapacity());
+
 		return 1;
 	}
 
@@ -196,8 +216,12 @@ public abstract class DynamoCRUDRepository<T> {
 			if (counter == 100) {
 				Map<String, KeysAndAttributes> requestItems = new HashMap<>();
 				requestItems.put(tableName, KeysAndAttributes.builder().keys(keyItem).build());
-				BatchGetItemRequest request = BatchGetItemRequest.builder().requestItems(requestItems).build();
-				List<Map<String, AttributeValue>> responseMap = ddb.batchGetItem(request).responses().get(tableName);
+        BatchGetItemRequest request = BatchGetItemRequest.builder().requestItems(requestItems).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+        BatchGetItemResponse response = ddb.batchGetItem(request);
+
+        logger.info("batchGetPer100Item from {} consumedCapacity: {}", tableName, response.consumedCapacity());
+
+				List<Map<String, AttributeValue>> responseMap = response.responses().get(tableName);
 				totalResponseMap.addAll(responseMap);
 				box.clear();
 				counter = 0;
@@ -207,8 +231,12 @@ public abstract class DynamoCRUDRepository<T> {
 		if (!box.isEmpty()) {
 			Map<String, KeysAndAttributes> requestItems = new HashMap<>();
 			requestItems.put(tableName, KeysAndAttributes.builder().keys(keyItem).build());
-			BatchGetItemRequest request = BatchGetItemRequest.builder().requestItems(requestItems).build();
-			List<Map<String, AttributeValue>> responseMap = ddb.batchGetItem(request).responses().get(tableName);
+      BatchGetItemRequest request = BatchGetItemRequest.builder().requestItems(requestItems).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+      BatchGetItemResponse response = ddb.batchGetItem(request);
+
+      logger.info("batchGetPer100Item !box.isEmpty() from {} consumedCapacity: {}", tableName, response.consumedCapacity());
+
+			List<Map<String, AttributeValue>> responseMap = response.responses().get(tableName);
 			totalResponseMap.addAll(responseMap);
 		}
 
@@ -224,8 +252,10 @@ public abstract class DynamoCRUDRepository<T> {
 			if (counter == 25) {
 				HashMap<String, List<WriteRequest>> map = new HashMap<String, List<WriteRequest>>();
 				map.put(tableName, box);
-				BatchWriteItemRequest batchWriteItemRequest = BatchWriteItemRequest.builder().requestItems(map).build();
-				ddb.batchWriteItem(batchWriteItemRequest);
+				BatchWriteItemRequest batchWriteItemRequest = BatchWriteItemRequest.builder().requestItems(map).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+        BatchWriteItemResponse response = ddb.batchWriteItem(batchWriteItemRequest);
+
+        logger.info("batchWritePer25Item from {} consumedCapacity: {}", tableName, response.consumedCapacity());
 				box.clear();
 				counter = 0;
 			}
@@ -233,8 +263,10 @@ public abstract class DynamoCRUDRepository<T> {
 		if (!box.isEmpty()) {
 			HashMap<String, List<WriteRequest>> map = new HashMap<String, List<WriteRequest>>();
 			map.put(tableName, box);
-			BatchWriteItemRequest batchWriteItemRequest = BatchWriteItemRequest.builder().requestItems(map).build();
-			ddb.batchWriteItem(batchWriteItemRequest);
+			BatchWriteItemRequest batchWriteItemRequest = BatchWriteItemRequest.builder().requestItems(map).returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
+      BatchWriteItemResponse response = ddb.batchWriteItem(batchWriteItemRequest);
+      
+      logger.info("batchWritePer25Item !box.isEmpty() from {} consumedCapacity: {}", tableName, response.consumedCapacity());
 		}
 	}
 
@@ -309,7 +341,7 @@ public abstract class DynamoCRUDRepository<T> {
 			pager.setPreCursor(cursor);
 			builder.exclusiveStartKey(this.decLastEvaluatedKey(cursor));
 		}
-		QueryRequest request = builder.build();
+		QueryRequest request = builder.returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
 
 		QueryResponse resp = ddb.query(request);
 		List<Map<String, AttributeValue>> returnMap = resp.items();
@@ -327,7 +359,7 @@ public abstract class DynamoCRUDRepository<T> {
 			while (retNewListT.size() < pageSize && lastEvaluatedKey != null && !lastEvaluatedKey.isEmpty()) {
 				builder.limit(pageSize - retNewListT.size());
 				builder.exclusiveStartKey(lastEvaluatedKey);
-				request = builder.build();
+				request = builder.returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
 				QueryResponse respRe = ddb.query(request);
 				for (Map<String, AttributeValue> map : respRe.items()) {
 					T newT = (T) t.getClass().newInstance();
