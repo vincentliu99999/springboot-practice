@@ -1,17 +1,26 @@
 package com.vincent.practice.repository;
 
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.vincent.practice.model.Todo;
+import com.vincent.practice.model.dao.PagedResult;
 import com.vincent.practice.repository.ddbmapper.DDBMapper;
 import com.vincent.practice.repository.ddbmapper.DDBModelException;
+import com.vincent.practice.repository.ddbmapper.DDBTableMeta;
 import com.vincent.practice.repository.ddbmapper.NOKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.PutRequest;
+import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
+import software.amazon.awssdk.services.dynamodb.model.QueryRequest.Builder;
 import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.WriteRequest;
 
 @Repository
 public class TodoRepository extends DynamoCRUDRepository<Todo> {

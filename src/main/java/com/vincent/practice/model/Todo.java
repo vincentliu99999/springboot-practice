@@ -3,13 +3,14 @@ package com.vincent.practice.model;
 import java.util.Date;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBAttr;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBHashKey;
+import com.vincent.practice.repository.ddbmapper.annotation.DDBHashKey.KEY_GEN;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBRangeKey;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBTable;
 
 @DDBTable(name = "Todo")
 public class Todo {
 
-  @DDBHashKey(name = "pk")
+  @DDBHashKey(name = "pk", gen = KEY_GEN.NUM_STR)
   private String pk;
   @DDBRangeKey(name = "sk")
   private String sk;
