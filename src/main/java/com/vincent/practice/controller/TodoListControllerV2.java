@@ -34,7 +34,7 @@ public class TodoListControllerV2 {
   public void batchSaveTodoItem() throws Exception {
     List<Todo> todos = new ArrayList<Todo>();
 
-    for(int i = 0; i < 20; i++){
+    for (int i = 0; i < 20; i++) {
       Todo todo = new Todo();
       todo.setPk("pk" + Integer.toString(i));
       todo.setSk("sk" + Integer.toString(i));
@@ -52,29 +52,31 @@ public class TodoListControllerV2 {
   }
 
   @GetMapping("/getTodoByPkBySk")
-  public Todo getTodoByPkBySk(@RequestParam(value = "pk", defaultValue = "pk") String pk, @RequestParam(value = "sk", defaultValue = "sk") String sk)
+  public Todo getTodoByPkBySk(@RequestParam(value = "pk", defaultValue = "pk") String pk,
+      @RequestParam(value = "sk", defaultValue = "sk") String sk)
       throws IllegalAccessException, InstantiationException, ClassNotFoundException,
       DDBModelException, NOKeyException, ParseException, IOException {
     return todoService.getTodoByPkBySk(pk, sk);
   }
 
   @GetMapping("/queryTodoByPartitionKey")
-  public List<Todo> queryTodoByPartitionKey(@RequestParam(value = "pk", defaultValue = "pk") String pk)
+  public List<Todo> queryTodoByPartitionKey(
+      @RequestParam(value = "pk", defaultValue = "pk") String pk)
       throws IllegalAccessException, InstantiationException, ClassNotFoundException,
       DDBModelException, NOKeyException, ParseException, IOException {
-        Todo todo = new Todo();
-        todo.setPk(pk);
+    Todo todo = new Todo();
+    todo.setPk(pk);
     return todoService.queryTodoByPartitionKey(todo);
   }
 
   @GetMapping("/queryTodoByRangeKey")
   public List<Todo> queryTodoByRangeKey(@RequestParam(value = "pk", defaultValue = "pk") String pk,
-  @RequestParam(value = "sk", defaultValue = "sk") String sk)
+      @RequestParam(value = "sk", defaultValue = "sk") String sk)
       throws IllegalAccessException, InstantiationException, ClassNotFoundException,
       DDBModelException, NOKeyException, ParseException, IOException {
-        Todo todo = new Todo();
-        todo.setPk(pk);
-        todo.setSk(sk);
+    Todo todo = new Todo();
+    todo.setPk(pk);
+    todo.setSk(sk);
     return todoService.queryTodoByRangeKey(todo);
   }
 

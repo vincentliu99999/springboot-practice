@@ -31,6 +31,7 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
 
   /**
    * save single item
+   * 
    * @param todo
    * @return
    * @throws IllegalAccessException
@@ -44,6 +45,7 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
 
   /**
    * batch save per 25 items
+   * 
    * @param todos
    * @throws IllegalArgumentException
    * @throws IllegalAccessException
@@ -58,19 +60,19 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
       DDBTableMeta meta = DDBMapper.extractEntityMeta(todo, DDBMapper.PUT_MODE);
       HashMap<String, AttributeValue> attributeMap = meta.getAttributeMap();
 
-      list.add(WriteRequest.builder().putRequest(PutRequest.builder().item(attributeMap).build()).build());
+      list.add(WriteRequest.builder().putRequest(PutRequest.builder().item(attributeMap).build())
+          .build());
     }
     this.batchWritePer25Item(TABLE_NAME, list);
-}
+  }
 
   /**
    * get item by sk
    * 
    * Exception: The provided key element does not match the schema
    */
-  public Todo getTodoItemByPk(String pk)
-      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
-      DDBModelException, NOKeyException, ParseException {
+  public Todo getTodoItemByPk(String pk) throws IllegalAccessException, InstantiationException,
+      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
     Todo todo = new Todo();
     todo.setPk(pk);
 
@@ -138,9 +140,9 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
     return outputModel;
   }
 
-  public PagedResult<Todo> getPaginatedTodoByPkBySkPrefix(String pk, String skPrefix, int pageSize, String cursor)
-      throws IllegalAccessException, ParseException, IOException, InstantiationException,
-      DDBModelException, ClassNotFoundException {
+  public PagedResult<Todo> getPaginatedTodoByPkBySkPrefix(String pk, String skPrefix, int pageSize,
+      String cursor) throws IllegalAccessException, ParseException, IOException,
+      InstantiationException, DDBModelException, ClassNotFoundException {
 
     HashMap<String, AttributeValue> attributeMap = new HashMap<>();
     attributeMap.put(":pk", AttributeValue.builder().s(pk).build());
