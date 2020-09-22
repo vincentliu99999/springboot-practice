@@ -16,6 +16,9 @@ public class TodoService {
   @Autowired
   private TodoRepository todoRepository;
 
+  public void batchSaveTodoItem(List<Todo> todos) throws Exception {
+    todoRepository.batchSaveTodoItem(todos);
+  }
 
   public Todo saveTodoItem(Todo todo) throws Exception {
     return todoRepository.saveItem(todo);

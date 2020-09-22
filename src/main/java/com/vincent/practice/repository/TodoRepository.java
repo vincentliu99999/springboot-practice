@@ -29,6 +29,26 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
 
   private static final String TABLE_NAME = "Todo";
 
+  /**
+   * batch save per 25 items
+   * @param todos
+   * @throws IllegalArgumentException
+   * @throws IllegalAccessException
+   * @throws DDBModelException
+   * @throws NOKeyException
+   */
+  public void batchSaveTodoItem(List<Todo> todos)
+      throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException {
+    List<WriteRequest> list = new ArrayList<WriteRequest>();
+
+    for (Todo todo : todos) {
+      DDBTableMeta meta = DDBMapper.extractEntityMeta(todo, DDBMapper.PUT_MODE);
+      HashMap<String, AttributeValue> attributeMap = meta.getAttributeMap();
+
+      list.add(WriteRequest.builder().putRequest(PutRequest.builder().item(attributeMap).build()).build());
+    }
+    this.batchWritePer25Item(TABLE_NAME, list);
+}
   public Todo getTodoByPk(String pk, String sk)
       throws IllegalArgumentException, IllegalAccessException, InstantiationException,
       ClassNotFoundException, DDBModelException, NOKeyException, ParseException {

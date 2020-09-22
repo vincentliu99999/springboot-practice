@@ -29,9 +29,19 @@ public class TodoListControllerV2 {
     return todoService.saveTodoItem(todo);
   }
 
-  @PostMapping("/testGet")
-  public Todo testGet(@RequestParam(value = "pk2", defaultValue = "pk2") String pk,
-      @RequestParam(value = "sk2", defaultValue = "sk2") String sk)
+  @PostMapping("/batchSaveTodoItem")
+  public void batchSaveTodoItem() throws Exception {
+    List<Todo> todos = new ArrayList<Todo>();
+
+    for(int i = 0; i < 20; i++){
+      Todo todo = new Todo();
+      todo.setPk("pk" + Integer.toString(i));
+      todo.setSk("sk" + Integer.toString(i));
+      todos.add(todo)
+;    }
+
+    todoService.batchSaveTodoItem(todos);
+  }
       throws IllegalAccessException, InstantiationException, ClassNotFoundException,
       DDBModelException, NOKeyException, ParseException {
     return todoRepository.getTodoByPk(pk, sk);
