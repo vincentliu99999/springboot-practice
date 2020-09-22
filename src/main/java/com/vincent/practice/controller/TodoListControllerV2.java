@@ -113,50 +113,5 @@ public class TodoListControllerV2 {
     todo.setSk(sk);
     return todoService.deleteTodoItem(todo);
   }
-  // --------------------------------------------------------------------------------------
-  // @PostMapping("/saveTodoS")
-  // public Todo saveTodoS(@RequestBody Todo todo) throws Exception {
-  // return todoService.saveItem(todo);
-  // }
-
-  // @GetMapping("/getTodoS")
-  // public Todo getTodoS(@RequestParam(value = "pk2", defaultValue = "pk2") String pk,
-  // @RequestParam(value = "sk2", defaultValue = "sk2") String sk)
-  // throws IllegalAccessException, InstantiationException, ClassNotFoundException,
-  // DDBModelException, NOKeyException, ParseException {
-  // return todoService.getItem(pk, sk);
-  // }
-
-  // @PostMapping("/saveTodo")
-  // public Todo saveTodo(@RequestBody Todo todo)
-  // throws IllegalAccessException, InstantiationException, ClassNotFoundException,
-  // DDBModelException, NOKeyException, ParseException {
-  // return todoRepository.saveTodoItem(todo);
-  // }
-
-  // @PostMapping("/testGet")
-  // public Todo testGet(@RequestParam(value = "pk2", defaultValue = "pk2") String pk,
-  // @RequestParam(value = "sk2", defaultValue = "sk2") String sk)
-  // throws IllegalAccessException, InstantiationException, ClassNotFoundException,
-  // DDBModelException, NOKeyException, ParseException {
-  // return todoRepository.getTodoByPk(pk, sk);
-  // }
-
-  // @PostMapping("/testSave")
-  // public Todo testSave(@RequestParam(value = "pk", defaultValue = "pk") String pk,
-  // @RequestParam(value = "sk", defaultValue = "sk") String sk,
-  // @RequestParam(value = "todo", defaultValue = "todo") String desc)
-  // throws IllegalAccessException, DDBModelException, NOKeyException {
-  // Todo todo = new Todo();
-  // todo.setSk(sk);
-  // todo.setTask(desc);
-  // return todoRepository.saveTodoItem(todo);
-  // }
-
-  // @PostMapping("/updateTodoDone")
-  // public Todo updateTodoDone(@RequestBody Todo todo) throws IllegalAccessException,
-  // DDBModelException, ClassNotFoundException, InstantiationException, ParseException {
-  // return todoRepository.updateDone(todo);
-  // }
 
 }
