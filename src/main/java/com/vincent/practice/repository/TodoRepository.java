@@ -82,6 +82,45 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
 
     return outputModel;
   }
+
+  /**
+   * query by pk + sk begin with
+   * 
+   * @param todo
+   * @return
+   * @throws IllegalAccessException
+   * @throws ParseException
+   * @throws InstantiationException
+   * @throws DDBModelException
+   * @throws ClassNotFoundException
+   * @throws NOKeyException
+   */
+  public List<Todo> queryTodoByRangeKey(Todo todo) throws IllegalAccessException, ParseException,
+      InstantiationException, DDBModelException, ClassNotFoundException, NOKeyException {
+    List<Todo> outputModel = queryByRangeKey(todo);
+
+    // HashMap<String, AttributeValue> attributeMap = new HashMap<>();
+    // attributeMap.put(":pk", AttributeValue.builder().s(todo.getPk()).build());
+    // attributeMap.put(":sk", AttributeValue.builder().s(todo.getSk()).build());
+
+    // QueryRequest request = QueryRequest.builder().tableName(TABLE_NAME)
+    // .keyConditionExpression("pk = :pk and begins_with(sk, :sk)")
+    // .expressionAttributeValues(attributeMap).build();
+
+    // List<Map<String, AttributeValue>> dynamoQueryResq =
+    // getDynamoDbClient().query(request).items();
+
+    // List<Todo> outputModel = new ArrayList<>();
+    // if (dynamoQueryResq != null && !dynamoQueryResq.isEmpty()) {
+    // for (Map<String, AttributeValue> responseItem : dynamoQueryResq) {
+    // Todo newT = new Todo();
+    // DDBMapper.populateEntity(newT, responseItem);
+    // outputModel.add(newT);
+    // }
+    // }
+
+    return outputModel;
+  }
   public Todo getTodoByPk(String pk, String sk)
       throws IllegalArgumentException, IllegalAccessException, InstantiationException,
       ClassNotFoundException, DDBModelException, NOKeyException, ParseException {

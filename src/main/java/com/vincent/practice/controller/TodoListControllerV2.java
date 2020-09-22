@@ -52,16 +52,15 @@ public class TodoListControllerV2 {
     return todoService.queryTodoByPartitionKey(todo);
   }
 
-  @PostMapping("/testSave")
-  public Todo testSave(@RequestParam(value = "pk", defaultValue = "pk") String pk,
-      @RequestParam(value = "sk", defaultValue = "sk") String sk,
-      @RequestParam(value = "todo", defaultValue = "todo") String desc)
-      throws IllegalAccessException, DDBModelException, NOKeyException {
-    Todo todo = new Todo();
-    todo.setPk(pk);
-    todo.setSk(sk);
-    todo.setTask(desc);
-    return todoRepository.saveTodoItem(todo);
+  @GetMapping("/queryTodoByRangeKey")
+  public List<Todo> queryTodoByRangeKey(@RequestParam(value = "pk", defaultValue = "pk") String pk,
+  @RequestParam(value = "sk", defaultValue = "sk") String sk)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException, IOException {
+        Todo todo = new Todo();
+        todo.setPk(pk);
+        todo.setSk(sk);
+    return todoService.queryTodoByRangeKey(todo);
   }
 
   @PostMapping("/updateTodoDone")

@@ -29,4 +29,10 @@ public class TodoService {
       IOException, DDBModelException, NOKeyException {
     return todoRepository.queryTodoByPartitionKey(todo);
   }
+
+  public List<Todo> queryTodoByRangeKey(Todo todo)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException, ParseException,
+      IOException, DDBModelException, NOKeyException {
+    return todoRepository.queryTodoByRangeKey(todo);
+  }
 }
