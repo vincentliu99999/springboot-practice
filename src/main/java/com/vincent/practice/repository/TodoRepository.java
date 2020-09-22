@@ -30,6 +30,18 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
   private static final String TABLE_NAME = "Todo";
 
   /**
+   * save single item
+   * @param todo
+   * @return
+   * @throws IllegalAccessException
+   * @throws DDBModelException
+   * @throws NOKeyException
+   */
+  public Todo saveTodoItem(Todo todo)
+      throws IllegalAccessException, DDBModelException, NOKeyException {
+    return this.saveItem(todo);
+  }
+  /**
    * batch save per 25 items
    * @param todos
    * @throws IllegalArgumentException
