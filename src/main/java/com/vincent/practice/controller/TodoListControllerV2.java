@@ -10,8 +10,10 @@ import com.vincent.practice.repository.ddbmapper.DDBModelException;
 import com.vincent.practice.repository.ddbmapper.NOKeyException;
 import com.vincent.practice.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,6 +91,27 @@ public class TodoListControllerV2 {
       throws IllegalAccessException, InstantiationException, ClassNotFoundException,
       DDBModelException, NOKeyException, ParseException, IOException {
     return todoService.getPaginatedTodoByPkBySkPrefix(pk, skPrefix, pageSize, cursor);
+  }
+
+  @PutMapping("/updateDoneToFalse")
+  public Todo updateDoneToFalse(@RequestParam(value = "pk", defaultValue = "pk") String pk,
+      @RequestParam(value = "sk", defaultValue = "sk") String sk)
+      throws IllegalAccessException, ClassNotFoundException, InstantiationException,
+      DDBModelException, ParseException, NOKeyException {
+    Todo todo = new Todo();
+    todo.setPk(pk);
+    todo.setSk(sk);
+    return todoService.updateDoneToFalse(todo);
+  }
+
+  @DeleteMapping("/deleteTodoItem")
+  public int deleteTodoItem(@RequestParam(value = "pk", defaultValue = "pk") String pk,
+      @RequestParam(value = "sk", defaultValue = "sk") String sk)
+      throws IllegalAccessException, DDBModelException, NOKeyException {
+    Todo todo = new Todo();
+    todo.setPk(pk);
+    todo.setSk(sk);
+    return todoService.deleteTodoItem(todo);
   }
   // --------------------------------------------------------------------------------------
   // @PostMapping("/saveTodoS")

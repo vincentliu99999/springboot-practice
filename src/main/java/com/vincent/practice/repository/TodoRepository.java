@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import com.vincent.practice.model.Todo;
 import com.vincent.practice.model.dao.PagedResult;
 import com.vincent.practice.repository.ddbmapper.DDBMapper;
@@ -19,7 +18,6 @@ import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.PutRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest.Builder;
-import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.WriteRequest;
 
 @Repository
@@ -170,27 +168,11 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
     return pagingProcess(builder, pageSize, cursor);
   }
 
-  public Todo updateDone(Todo todo) throws IllegalAccessException, ClassNotFoundException,
-      InstantiationException, DDBModelException, ParseException {
-    HashMap<String, AttributeValue> keyAttributeValues = new HashMap<>();
-    keyAttributeValues.put("pk", AttributeValue.builder().s(todo.getPk()).build());
-    keyAttributeValues.put("sk", AttributeValue.builder().s(todo.getSk()).build());
+  public Todo updateDoneToFalse(Todo todo) throws IllegalAccessException, ClassNotFoundException,
+      InstantiationException, DDBModelException, ParseException, NOKeyException {
+    todo.setDone(false);
 
-    String updateExpression = "SET done = :done";
-
-    HashMap<String, AttributeValue> expressionAttributeValues = new HashMap<>();
-    expressionAttributeValues.put(":done", AttributeValue.builder().bool(todo.isDone()).build());
-
-    UpdateItemRequest request = UpdateItemRequest.builder().tableName(TABLE_NAME)
-        .key(keyAttributeValues).updateExpression(updateExpression)
-        .expressionAttributeValues(expressionAttributeValues).returnValues("ALL_NEW").build();
-
-    Map<String, AttributeValue> responseMap = ddb.updateItem(request).attributes();
-
-    Todo outputModel = new Todo();
-    DDBMapper.populateEntity(outputModel, responseMap);
-
-    return outputModel;
+    return this.updateItem(todo, "done");
   }
 
   public int deleteTodoItem(Todo todo)

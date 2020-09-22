@@ -53,6 +53,16 @@ public class TodoService {
     return todoRepository.getPaginatedTodoByPkBySkPrefix(pk, skPrefix, pageSize, cursor);
   }
 
+  public Todo updateDoneToFalse(Todo todo) throws IllegalAccessException, ClassNotFoundException,
+      InstantiationException, DDBModelException, ParseException, NOKeyException {
+    return todoRepository.updateDoneToFalse(todo);
+  }
+
+  public int deleteTodoItem(Todo todo)
+      throws IllegalAccessException, DDBModelException, NOKeyException {
+    return todoRepository.deleteItem(todo);
+  }
+
   // --------------------------------------------------------------------------------------
   public Todo saveItem(Todo item) throws Exception {
     Todo todo = todoRepository.getTodoItemByPkBySk(item.getPk(), item.getSk());
