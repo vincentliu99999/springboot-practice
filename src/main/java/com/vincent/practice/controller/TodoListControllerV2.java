@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import com.vincent.practice.model.Todo;
+import com.vincent.practice.model.dao.PagedResult;
 import com.vincent.practice.repository.ddbmapper.DDBModelException;
 import com.vincent.practice.repository.ddbmapper.NOKeyException;
 import com.vincent.practice.service.TodoService;
@@ -77,10 +78,15 @@ public class TodoListControllerV2 {
     return todoService.queryTodoByRangeKey(todo);
   }
 
-  @PostMapping("/updateTodoDone")
-  public Todo updateTodoDone(@RequestBody Todo todo) throws IllegalAccessException,
-      DDBModelException, ClassNotFoundException, InstantiationException, ParseException {
-    return todoRepository.updateDone(todo);
+  @GetMapping("/getPaginatedTodoByPkBySkPrefix")
+  public PagedResult<Todo> getPaginatedTodoByPkBySkPrefix(
+      @RequestParam(value = "pk", defaultValue = "pk") String pk,
+      @RequestParam(value = "sk", defaultValue = "sk") String skPrefix,
+      @RequestParam(value = "10", defaultValue = "10") int pageSize,
+      @RequestParam(value = "", defaultValue = "") String cursor)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException, IOException {
+    return todoService.getPaginatedTodoByPkBySkPrefix(pk, skPrefix, pageSize, cursor);
   }
 
 }

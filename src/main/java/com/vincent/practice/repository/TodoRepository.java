@@ -138,25 +138,21 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
     return outputModel;
   }
 
-    // HashMap<String, AttributeValue> attributeMap = new HashMap<>();
-    // attributeMap.put(":pk", AttributeValue.builder().s(todo.getPk()).build());
-    // attributeMap.put(":sk", AttributeValue.builder().s(todo.getSk()).build());
+  public PagedResult<Todo> getPaginatedTodoByPkBySkPrefix(String pk, String skPrefix, int pageSize, String cursor)
+      throws IllegalAccessException, ParseException, IOException, InstantiationException,
+      DDBModelException, ClassNotFoundException {
 
-    // QueryRequest request = QueryRequest.builder().tableName(TABLE_NAME)
-    // .keyConditionExpression("pk = :pk and begins_with(sk, :sk)")
-    // .expressionAttributeValues(attributeMap).build();
+    HashMap<String, AttributeValue> attributeMap = new HashMap<>();
+    attributeMap.put(":pk", AttributeValue.builder().s(pk).build());
+    attributeMap.put(":sk", AttributeValue.builder().s(skPrefix).build());
 
-    // List<Map<String, AttributeValue>> dynamoQueryResq =
-    // getDynamoDbClient().query(request).items();
+    Builder builder = QueryRequest.builder().tableName(TABLE_NAME)
+        .keyConditionExpression("pk = :pk and begins_with(sk, :sk)")
+        .expressionAttributeValues(attributeMap).scanIndexForward(false);
 
-    // List<Todo> outputModel = new ArrayList<>();
-    // if (dynamoQueryResq != null && !dynamoQueryResq.isEmpty()) {
-    // for (Map<String, AttributeValue> responseItem : dynamoQueryResq) {
-    // Todo newT = new Todo();
-    // DDBMapper.populateEntity(newT, responseItem);
-    // outputModel.add(newT);
-    // }
-    // }
+    return pagingProcess(builder, pageSize, cursor);
+  }
+
 
     return outputModel;
   }

@@ -47,4 +47,10 @@ public class TodoService {
     return todoRepository.getTodoItemByPkBySk(pk, sk);
   }
 
+  public PagedResult<Todo> getPaginatedTodoByPkBySkPrefix(String pk, String skPrefix, int pageSize, String cursor)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException, ParseException,
+      IOException, DDBModelException {
+    return todoRepository.getPaginatedTodoByPkBySkPrefix(pk, skPrefix, pageSize, cursor);
+  }
+
 }
