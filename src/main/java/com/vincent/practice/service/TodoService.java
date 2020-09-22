@@ -24,4 +24,9 @@ public class TodoService {
     return todoRepository.saveItem(todo);
   }
 
+  public List<Todo> queryTodoByPartitionKey(Todo todo)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException, ParseException,
+      IOException, DDBModelException, NOKeyException {
+    return todoRepository.queryTodoByPartitionKey(todo);
+  }
 }

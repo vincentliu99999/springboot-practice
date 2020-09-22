@@ -41,6 +41,7 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
       throws IllegalAccessException, DDBModelException, NOKeyException {
     return this.saveItem(todo);
   }
+
   /**
    * batch save per 25 items
    * @param todos
@@ -61,6 +62,26 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
     }
     this.batchWritePer25Item(TABLE_NAME, list);
 }
+
+  /**
+   * query by pk
+   * 
+   * @param todo
+   * @return
+   * @throws IllegalAccessException
+   * @throws ParseException
+   * @throws InstantiationException
+   * @throws DDBModelException
+   * @throws ClassNotFoundException
+   * @throws NOKeyException
+   */
+  public List<Todo> queryTodoByPartitionKey(Todo todo)
+      throws IllegalAccessException, ParseException, InstantiationException, DDBModelException,
+      ClassNotFoundException, NOKeyException {
+    List<Todo> outputModel = queryByPartitionKey(todo);
+
+    return outputModel;
+  }
   public Todo getTodoByPk(String pk, String sk)
       throws IllegalArgumentException, IllegalAccessException, InstantiationException,
       ClassNotFoundException, DDBModelException, NOKeyException, ParseException {

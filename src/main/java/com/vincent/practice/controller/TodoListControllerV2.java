@@ -42,9 +42,14 @@ public class TodoListControllerV2 {
 
     todoService.batchSaveTodoItem(todos);
   }
+
+  @GetMapping("/queryTodoByPartitionKey")
+  public List<Todo> queryTodoByPartitionKey(@RequestParam(value = "pk", defaultValue = "pk") String pk)
       throws IllegalAccessException, InstantiationException, ClassNotFoundException,
-      DDBModelException, NOKeyException, ParseException {
-    return todoRepository.getTodoByPk(pk, sk);
+      DDBModelException, NOKeyException, ParseException, IOException {
+        Todo todo = new Todo();
+        todo.setPk(pk);
+    return todoService.queryTodoByPartitionKey(todo);
   }
 
   @PostMapping("/testSave")
