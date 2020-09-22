@@ -2,6 +2,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CodeLens (Launch) - ConfigCheck",
+      "request": "launch",
+      "mainClass": "com.vincent.practice.ConfigCheck",
+      "projectName": "practice"
+    },
+    {
+      "type": "java",
+      "name": "CodeLens (Launch) - Vincent",
+      "request": "launch",
+      "mainClass": "com.vincent.practice.Vincent",
+      "projectName": "practice"
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - Variable",
       "request": "launch",
       "mainClass": "com.vincent.basic.Variable",

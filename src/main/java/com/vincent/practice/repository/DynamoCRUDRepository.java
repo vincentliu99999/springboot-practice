@@ -342,7 +342,8 @@ public abstract class DynamoCRUDRepository<T> {
 		}
 		QueryRequest request = builder.returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
 
-		QueryResponse response = ddb.query(request);
+    QueryResponse response = ddb.query(request);
+    logger.info("pagingProcess 1 from {} consumedCapacity: {}", request.tableName(), response.consumedCapacity());
 		List<Map<String, AttributeValue>> returnMap = response.items();
 		List<T> retNewListT = new ArrayList<>();
 		for (Map<String, AttributeValue> map : returnMap) {
@@ -357,7 +358,8 @@ public abstract class DynamoCRUDRepository<T> {
 				builder.limit(pageSize - retNewListT.size());
 				builder.exclusiveStartKey(lastEvaluatedKey);
 				request = builder.returnConsumedCapacity(ReturnConsumedCapacity.TOTAL).build();
-				QueryResponse respRe = ddb.query(request);
+        QueryResponse respRe = ddb.query(request);
+        logger.info("pagingProcess 2 from {} consumedCapacity: {}", request.tableName(), respRe.consumedCapacity());
 				for (Map<String, AttributeValue> map : respRe.items()) {
 					T newT = (T) t.getClass().newInstance();
 					DDBMapper.populateEntity(newT, map);

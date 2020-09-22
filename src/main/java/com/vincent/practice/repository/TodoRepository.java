@@ -155,26 +155,23 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
     return pagingProcess(builder, pageSize, cursor);
   }
 
+  public PagedResult<Todo> getPaginatedTodoByPk(String pk, int pageSize, String cursor)
+      throws IllegalAccessException, ParseException, IOException, InstantiationException,
+      DDBModelException, ClassNotFoundException {
 
-    return outputModel;
-  }
-  public Todo getTodoByPk(String pk, String sk)
-      throws IllegalArgumentException, IllegalAccessException, InstantiationException,
-      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
-    Todo todo = new Todo();
-    todo.setPk(pk);
-    todo.setSk(sk);
+    HashMap<String, AttributeValue> attributeMap = new HashMap<>();
+    attributeMap.put(":pk", AttributeValue.builder().s(pk.toString()).build());
+    attributeMap.put(":sk", AttributeValue.builder().s("pk").build());
 
-    return this.getItem(todo);
-  }
+    Builder builder = QueryRequest.builder().tableName(TABLE_NAME)
+        .keyConditionExpression("pk = :pk and begins_with(sk, :sk)")
+        .expressionAttributeValues(attributeMap).scanIndexForward(false);
 
-  public Todo saveTodoItem(Todo todo)
-      throws IllegalArgumentException, IllegalAccessException, DDBModelException, NOKeyException {
-    return this.saveItem(todo);
+    return pagingProcess(builder, pageSize, cursor);
   }
 
-  public Todo updateDone(Todo todo) throws IllegalArgumentException, IllegalAccessException,
-      ClassNotFoundException, InstantiationException, DDBModelException, ParseException {
+  public Todo updateDone(Todo todo) throws IllegalAccessException, ClassNotFoundException,
+      InstantiationException, DDBModelException, ParseException {
     HashMap<String, AttributeValue> keyAttributeValues = new HashMap<>();
     keyAttributeValues.put("pk", AttributeValue.builder().s(todo.getPk()).build());
     keyAttributeValues.put("sk", AttributeValue.builder().s(todo.getSk()).build());
@@ -194,5 +191,10 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
     DDBMapper.populateEntity(outputModel, responseMap);
 
     return outputModel;
+  }
+
+  public int deleteTodoItem(Todo todo)
+      throws IllegalAccessException, DDBModelException, NOKeyException {
+    return this.deleteItem(todo);
   }
 }

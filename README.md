@@ -80,6 +80,21 @@ org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse 
 - [springdoc-openapi](https://springdoc.org/)
 - [在 Spring Boot 项目中使用 Swagger 文档](https://www.ibm.com/developerworks/cn/java/j-using-swagger-in-a-spring-boot-project/index.html)
 
+## DynamoCRUDRepository
+
+method | request Object | response Object | Note
+-------|----------------|----------------|----------------
+`T getItem(T t)` | GetItemRequest | GetItemResponse | 取得單筆資料 by hash key, hash key + range key
+`List<T> queryByPartitionKey(T t)` | QueryRequest | QueryResponse | 取得多筆資料 by hash key
+`List<T> queryByRangeKey(T t)` | QueryRequest | QueryResponse | 取得多筆資料 by hash key + range key begins_with
+`T saveItem(T t)` | PutItemRequest | PutItemResponse | 儲存單筆資料
+`T updateItem(T t, String... updateFields)` | UpdateItemRequest | UpdateItemResponse | 指定欄位更新單筆資料
+`<X extends Object> X counterAdd(X t, String... updateFields)` | UpdateItemRequest | UpdateItemResponse | TODO
+`int deleteItem(T t)` | DeleteItemRequest | DeleteItemResponse | 刪除資料 by hash key, hash key + range key
+`List<Map<String, AttributeValue>> batchGetPer100Item(String tableName, List<Map<String, AttributeValue>> keyItem)` | BatchGetItemRequest | BatchGetItemResponse | 批次取得多筆資料，一次最多 16 MB, 100 筆 item
+`void batchWritePer25Item(String tableName, List<WriteRequest> keyItem)` | BatchWriteItemRequest | BatchWriteItemResponse | 批次寫入多筆資料
+`PagedResult<T> pagingProcess(Builder builder, Integer pageSize, String cursor)` | QueryRequest | QueryResponse | 分頁取得多筆資料
+
 ## Reference
 
 - [Building an Application with Spring Boot](https://spring.io/guides/gs/spring-boot/)
