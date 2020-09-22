@@ -64,6 +64,43 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
 }
 
   /**
+   * get item by sk
+   * 
+   * Exception: The provided key element does not match the schema
+   */
+  public Todo getTodoItemByPk(String pk)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException {
+    Todo todo = new Todo();
+    todo.setPk(pk);
+
+    return this.getItem(todo);
+  }
+
+  /**
+   * get item by pk, sk
+   * 
+   * @param pk
+   * @param sk
+   * @return
+   * @throws IllegalAccessException
+   * @throws InstantiationException
+   * @throws ClassNotFoundException
+   * @throws DDBModelException
+   * @throws NOKeyException
+   * @throws ParseException
+   */
+  public Todo getTodoItemByPkBySk(String pk, String sk)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException {
+    Todo todo = new Todo();
+    todo.setPk(pk);
+    todo.setSk(sk);
+
+    return this.getItem(todo);
+  }
+
+  /**
    * query by pk
    * 
    * @param todo

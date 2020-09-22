@@ -37,10 +37,24 @@ public class TodoListControllerV2 {
       Todo todo = new Todo();
       todo.setPk("pk" + Integer.toString(i));
       todo.setSk("sk" + Integer.toString(i));
-      todos.add(todo)
-;    }
+      todos.add(todo);
+    }
 
     todoService.batchSaveTodoItem(todos);
+  }
+
+  @GetMapping("/getTodoByPk")
+  public Todo getTodoByPk(@RequestParam(value = "pk", defaultValue = "pk") String pk)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException, IOException {
+    return todoService.getTodoByPk(pk);
+  }
+
+  @GetMapping("/getTodoByPkBySk")
+  public Todo getTodoByPkBySk(@RequestParam(value = "pk", defaultValue = "pk") String pk, @RequestParam(value = "sk", defaultValue = "sk") String sk)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException, IOException {
+    return todoService.getTodoByPkBySk(pk, sk);
   }
 
   @GetMapping("/queryTodoByPartitionKey")

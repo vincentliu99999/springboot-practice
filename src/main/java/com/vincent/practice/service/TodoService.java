@@ -35,4 +35,16 @@ public class TodoService {
       IOException, DDBModelException, NOKeyException {
     return todoRepository.queryTodoByRangeKey(todo);
   }
+
+  public Todo getTodoByPk(String pk) throws IllegalAccessException, InstantiationException,
+      ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
+    return todoRepository.getTodoItemByPk(pk);
+  }
+
+  public Todo getTodoByPkBySk(String pk, String sk)
+      throws IllegalAccessException, InstantiationException, ClassNotFoundException,
+      DDBModelException, NOKeyException, ParseException {
+    return todoRepository.getTodoItemByPkBySk(pk, sk);
+  }
+
 }
