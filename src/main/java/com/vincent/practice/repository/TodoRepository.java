@@ -98,6 +98,8 @@ public class TodoRepository extends DynamoCRUDRepository<Todo> {
   public List<Todo> queryTodoByRangeKey(Todo todo) throws IllegalAccessException, ParseException,
       InstantiationException, DDBModelException, ClassNotFoundException, NOKeyException {
     List<Todo> outputModel = queryByRangeKey(todo);
+    return outputModel;
+  }
 
     // HashMap<String, AttributeValue> attributeMap = new HashMap<>();
     // attributeMap.put(":pk", AttributeValue.builder().s(todo.getPk()).build());
