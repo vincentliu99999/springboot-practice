@@ -27,7 +27,7 @@ public class PracticeApplication {
 
       String[] beanNames = ctx.getBeanDefinitionNames();
       ctx.getBean(RequestMappingHandlerMapping.class).getHandlerMethods()
-          .forEach((key, value) -> logger.info("{} {}", key, value));
+          .forEach((key, value) -> logger.info("key:{} value {}", key, value));
       Arrays.sort(beanNames);
       for (String beanName : beanNames) {
         // System.out.println(beanName);
