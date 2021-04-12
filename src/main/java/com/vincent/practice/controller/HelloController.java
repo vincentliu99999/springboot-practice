@@ -2,6 +2,7 @@ package com.vincent.practice.controller;
 
 import java.util.concurrent.atomic.AtomicLong;
 import com.vincent.practice.model.Greeting;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +14,7 @@ public class HelloController {
   private static final String TEMPLATE = "Hello, %s!";
   private final AtomicLong counter = new AtomicLong();
 
-  @RequestMapping("/")
+  @RequestMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE)
   public String index() {
     return "Greetings from Spring Boot!";
   }

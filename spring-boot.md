@@ -76,3 +76,6 @@ export MAVEN_OPTS=-Xmx1024m
 TODO
 
 ## Spring Boot Actuator: Production-ready Features
+
+- <https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html>
+- <https://www.javadevjournal.com/spring-boot/spring-boot-actuator/>
