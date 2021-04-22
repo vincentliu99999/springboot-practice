@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch TestDog",
+      "request": "launch",
+      "mainClass": "com.vincent.practice.test.TestDog",
+      "projectName": "practice"
+    },
+    {
+      "type": "java",
       "name": "CodeLens (Launch) - ConfigCheck",
       "request": "launch",
       "mainClass": "com.vincent.practice.ConfigCheck",
