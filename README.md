@@ -2,18 +2,8 @@
 
 [Spring Initializr](https://start.spring.io/)
 
-## Maven
 
 ```shell
-mvn -v
-mvn compile # compile classes to target/classes
-mvn package # compile + test
-mvn install # conpile + test + package dependency
-mvn test
-mvn -Dtest=HelloControllerTest test
-
-mvn dependency:tree # display project dependencies
-
 curl localhost:8081/actuator/health
 ```
 
