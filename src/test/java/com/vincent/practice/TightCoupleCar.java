@@ -34,7 +34,7 @@ class RocketEngine2 {
 class Car2 {
   private SmallEngine2 engine;
 
-  public Car(SmallEngine2 engine) {
+  public Car2(SmallEngine2 engine) {
     this.engine = engine;
   }
 
