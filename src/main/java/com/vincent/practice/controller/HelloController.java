@@ -1,7 +1,7 @@
 package com.vincent.practice.controller;
 
-import java.util.concurrent.atomic.AtomicLong;
 import com.vincent.practice.model.Greeting;
+import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/hello")
 public class HelloController {
 
   private static final String TEMPLATE = "Hello, %s!";
@@ -26,7 +27,8 @@ public class HelloController {
 
   @GetMapping("/greeting")
   public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-    return new Greeting(counter.incrementAndGet(), String.format(TEMPLATE, name)); // response as JSON
+    return new Greeting(counter.incrementAndGet(), String.format(TEMPLATE, name)); // response as
+                                                                                   // JSON
   }
 
 }
