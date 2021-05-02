@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/hello")
 public class HelloController {
 
-  @RequestMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE)
-  public String index() {
-    return "Greetings from Spring Boot!";
-  }
+  // @RequestMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE)
+  // public String index() {
+  // return "Greetings from Spring Boot!";
+  // }
 
   @GetMapping("/hello")
   public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
