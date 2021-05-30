@@ -1,4 +1,4 @@
-package com.vincent.practice.service;
+package com.vincent.practice.sample;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

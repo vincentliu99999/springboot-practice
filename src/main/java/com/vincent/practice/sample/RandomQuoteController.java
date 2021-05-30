@@ -1,6 +1,5 @@
-package com.vincent.practice.controller;
+package com.vincent.practice.sample;
 
-import com.vincent.practice.service.RandomQuoteService;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
