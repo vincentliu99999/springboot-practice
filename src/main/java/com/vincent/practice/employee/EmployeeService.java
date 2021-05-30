@@ -1,7 +1,5 @@
 package com.vincent.practice.employee;
 
-import com.vincent.practice.model.Employee;
-
 import org.springframework.stereotype.Service;
 
 @Service

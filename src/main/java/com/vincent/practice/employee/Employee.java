@@ -1,11 +1,10 @@
-package com.vincent.practice.model;
+package com.vincent.practice.employee;
 
 public class Employee {
   private String empId;
   private String name;
 
-  public Employee() {
-  }
+  public Employee() {}
 
   public String getName() {
     return name;
