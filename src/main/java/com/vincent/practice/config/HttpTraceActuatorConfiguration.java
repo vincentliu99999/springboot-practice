@@ -1,4 +1,4 @@
-package com.vincent.practice;
+package com.vincent.practice.config;
 
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;

@@ -1,4 +1,4 @@
-package com.vincent.practice.model;
+package com.vincent.practice.sample;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

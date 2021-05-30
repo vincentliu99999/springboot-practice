@@ -1,4 +1,4 @@
-package com.vincent.practice.controller;
+package com.vincent.practice.sample;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

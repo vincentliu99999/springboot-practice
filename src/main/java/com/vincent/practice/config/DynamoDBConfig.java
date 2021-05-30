@@ -1,4 +1,4 @@
-package com.vincent.practice;
+package com.vincent.practice.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,15 +14,15 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 @ConfigurationProperties
 public class DynamoDBConfig {
 
-	@Value("${local-db-use}")
-	private boolean useLocalDB;
-	
-	@Bean
-	@Scope("prototype")
-	public DynamoDbClient buildDDB() throws URISyntaxException{
-		if(useLocalDB)
-			return DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
-		else
-			return DynamoDbClient.builder().region(Region.US_EAST_1).build();
-	}
+  @Value("${local-db-use}")
+  private boolean useLocalDB;
+
+  @Bean
+  @Scope("prototype")
+  public DynamoDbClient buildDDB() throws URISyntaxException {
+    if (useLocalDB)
+      return DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
+    else
+      return DynamoDbClient.builder().region(Region.US_EAST_1).build();
+  }
 }

@@ -1,4 +1,4 @@
-package com.vincent.practice.model;
+package com.vincent.practice.sample;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
