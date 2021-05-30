@@ -1,4 +1,4 @@
-package com.vincent.practice.service;
+package com.vincent.practice.employee;
 
 import com.vincent.practice.model.Employee;
 

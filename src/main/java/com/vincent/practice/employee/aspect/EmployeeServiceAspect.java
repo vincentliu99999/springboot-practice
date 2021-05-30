@@ -1,4 +1,4 @@
-package com.vincent.practice.aspect;
+package com.vincent.practice.employee.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -24,13 +24,15 @@ public class EmployeeServiceAspect {
 
   private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceAspect.class);
 
-  @Before(value = "execution(* com.vincent.practice.service.EmployeeService.*(..)) and args(name,empId)")
+  @Before(
+      value = "execution(* com.vincent.practice.employee.EmployeeService.*(..)) and args(name,empId)")
   public void beforeAdvice(JoinPoint joinPoint, String name, String empId) {
     logger.info("Before method: {}", joinPoint.getSignature());
     logger.info("Creating Employee with name - {} and id - {}", name, empId);
   }
 
-  @After(value = "execution(* com.vincent.practice.service.EmployeeService.*(..)) and args(name,empId)")
+  @After(
+      value = "execution(* com.vincent.practice.employee.EmployeeService.*(..)) and args(name,empId)")
   public void afterAdvice(JoinPoint joinPoint, String name, String empId) {
     logger.info("After method: {}", joinPoint.getSignature());
     logger.info("Successfully created Employee with name - {} and id - {}", name, empId);
