@@ -2,62 +2,6 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Launch LooseCoupleCar",
-      "request": "launch",
-      "mainClass": "com.vincent.practice.LooseCoupleCar",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
-      "name": "Launch TightCoupleCar",
-      "request": "launch",
-      "mainClass": "com.vincent.practice.TightCoupleCar",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
-      "name": "Launch ProductValidation",
-      "request": "launch",
-      "mainClass": "com.vincent.practice.ProductValidation",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
-      "name": "Launch EnumExample",
-      "request": "launch",
-      "mainClass": "com.vincent.practice.EnumExample",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
-      "name": "Launch TestDog",
-      "request": "launch",
-      "mainClass": "com.vincent.practice.test.TestDog",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
-      "name": "CodeLens (Launch) - ConfigCheck",
-      "request": "launch",
-      "mainClass": "com.vincent.practice.ConfigCheck",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
-      "name": "CodeLens (Launch) - Vincent",
-      "request": "launch",
-      "mainClass": "com.vincent.practice.Vincent",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
-      "name": "CodeLens (Launch) - Variable",
-      "request": "launch",
-      "mainClass": "com.vincent.basic.Variable",
-      "projectName": "practice"
-    },
-    {
-      "type": "java",
       "name": "Spring Boot-PracticeApplication<practice>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
