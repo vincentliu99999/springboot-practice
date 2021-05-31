@@ -16,12 +16,15 @@ public class EmployeeController {
   // private EmployeeService employeeService;
 
   private final EmployeeService employeeService;
-  private final MathService mathService;
+  private final IMathService mathService;
+  private final IMathService mathService2;
 
   @Autowired
-  public EmployeeController(EmployeeService employeeService, MathService mathService) {
+  public EmployeeController(
+      EmployeeService employeeService, MathService mathService, MathService2 mathService2) {
     this.employeeService = employeeService;
     this.mathService = mathService;
+    this.mathService2 = mathService2;
   }
 
   @ApiOperation(value = "簡單描述", notes = "詳細描述", nickname = "外號")
@@ -33,6 +36,7 @@ public class EmployeeController {
           String empId) {
     // ! NullPointerException found: employeeService = null
     System.out.println(mathService.add(1, 2));
+    System.out.println(mathService2.add(1, 2));
     return employeeService.createEmployee(name, empId);
   }
 
