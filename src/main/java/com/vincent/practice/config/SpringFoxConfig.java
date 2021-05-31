@@ -13,8 +13,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SpringFoxConfig {
 
   @Bean
-  public Docket api() {
-    return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-        .paths(PathSelectors.any()).build();
+  public Docket allPpi() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .groupName("all")
+        .select()
+        .apis(RequestHandlerSelectors.any())
+        .paths(PathSelectors.any())
+        .build();
+  }
+
+  @Bean
+  public Docket samplePpi() {
+    return new Docket(DocumentationType.SWAGGER_2)
+        .groupName("sample")
+        .select()
+        .apis(RequestHandlerSelectors.basePackage("com.vincent.practice.sample"))
+        .paths(PathSelectors.any())
+        .build();
   }
 }
