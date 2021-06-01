@@ -2,7 +2,7 @@ package com.vincent.practice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.vincent.practice.employee.MathService;
+import com.vincent.practice.math.MathService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
