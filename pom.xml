@@ -135,7 +135,27 @@
   </build>
 
   <!-- https://maven.apache.org/plugins/maven-checkstyle-plugin/usage.html -->
-  <reporting>
+   <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.1.2</version>
+          <configuration>
+            <configLocation>google_checks.xml</configLocation>
+          </configuration>
+          <reportSets>
+            <reportSet>
+              <reports>
+                <report>checkstyle</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+        </plugin>
+      </plugins>
+    </reporting>
+  
+  <!-- <reporting>
     <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -146,6 +166,6 @@
             </configuration>
         </plugin>
     </plugins>
-</reporting>
+</reporting> -->
 
 </project>
