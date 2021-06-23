@@ -2,6 +2,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch ProductValidation",
+      "request": "launch",
+      "mainClass": "com.vincent.practice.ProductValidation",
+      "projectName": "practice"
+    },
+    {
+      "type": "java",
       "name": "Spring Boot-PracticeApplication<practice>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
