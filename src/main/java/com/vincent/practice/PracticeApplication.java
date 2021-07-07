@@ -37,20 +37,20 @@ public class PracticeApplication {
     };
   }
 
-  @Bean
-  public RestTemplate restTemplate(RestTemplateBuilder builder) {
-    // uses the Jackson JSON processing library to process the incoming data.
-    return builder.build();
-  }
+  // @Bean
+  // public RestTemplate restTemplate(RestTemplateBuilder builder) {
+  //   // uses the Jackson JSON processing library to process the incoming data.
+  //   return builder.build();
+  // }
 
-  @Bean
-  public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
-    // fetch random quote on startup
-    return args -> {
-      Quote quote =
-          restTemplate.getForObject("https://quoters.apps.pcfone.io/api/random", Quote.class);
-      logger.info(quote.toString());
-    };
-  }
+  // @Bean
+  // public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
+  //   // fetch random quote on startup
+  //   return args -> {
+  //     Quote quote =
+  //         restTemplate.getForObject("https://quoters.apps.pcfone.io/api/random", Quote.class);
+  //     logger.info(quote.toString());
+  //   };
+  // }
 
 }
