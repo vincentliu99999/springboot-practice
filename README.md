@@ -2,7 +2,6 @@
 
 [Spring Initializr](https://start.spring.io/)
 
-
 ```shell
 curl localhost:8081/actuator/health
 ```
@@ -84,6 +83,16 @@ method | request Object | response Object | Note
 `List<Map<String, AttributeValue>> batchGetPer100Item(String tableName, List<Map<String, AttributeValue>> keyItem)` | BatchGetItemRequest | BatchGetItemResponse | 批次取得多筆資料，一次最多 16 MB, 100 筆 item
 `void batchWritePer25Item(String tableName, List<WriteRequest> keyItem)` | BatchWriteItemRequest | BatchWriteItemResponse | 批次寫入多筆資料
 `PagedResult<T> pagingProcess(Builder builder, Integer pageSize, String cursor)` | QueryRequest | QueryResponse | 分頁取得多筆資料
+
+## DynamoDB
+
+```shell
+cd /Users/vincent.liu/workspace/vincent/node/dynamodb_local_latest && java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+
+dynamodb-admin
+
+open http://localhost:8001
+```
 
 ## Reference
 
