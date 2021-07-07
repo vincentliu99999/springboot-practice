@@ -93,6 +93,20 @@
         <artifactId>hibernate-validator</artifactId>
         <version>6.0.13.Final</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.amazonaws/DynamoDBLocal -->
+    <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>DynamoDBLocal</artifactId>
+        <version>1.13.2</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.almworks.sqlite4java</groupId>
+        <artifactId>sqlite4java</artifactId>
+        <version>1.0.392</version>
+        <scope>test</scope>
+    </dependency>
 	</dependencies>
 
   <repositories>
