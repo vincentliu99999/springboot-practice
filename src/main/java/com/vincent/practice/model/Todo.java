@@ -1,17 +1,23 @@
 package com.vincent.practice.model;
 
 import java.util.Date;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBAttr;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBHashKey;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBHashKey.KEY_GEN;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBRangeKey;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBTable;
 
+@DynamoDBTable(tableName = "Todo")
 @DDBTable(name = "Todo")
 public class Todo {
 
+  @DynamoDBHashKey
   @DDBHashKey(name = "pk", gen = KEY_GEN.NUM_STR)
   private String pk;
+  @DynamoDBRangeKey
   @DDBRangeKey(name = "sk")
   private String sk;
   private String task;
