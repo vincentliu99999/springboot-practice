@@ -1,0 +1,6 @@
+2021-07-08 22:04:19,604 ERROR [main] org.springframework.test.context.TestContextManager: Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@50378a4] to prepare test instance [com.vincent.practice.data.TodoRepositoryTest@565f390]
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.vincent.practice.data.TodoRepositoryTest': Unsatisfied dependency expressed through field 'amazonDynamoDB'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.amazonaws.services.dynamodbv2.AmazonDynamoDB' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.amazonaws.services.dynamodbv2.AmazonDynamoDB' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'local-db-use' in value "${local-db-use}"

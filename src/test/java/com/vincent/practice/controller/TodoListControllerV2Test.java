@@ -1,4 +1,4 @@
-package com.vincent.practice.data;
+package com.vincent.practice.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;

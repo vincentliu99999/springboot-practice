@@ -1,0 +1,1 @@
+<https://github.com/opentracing-contrib/java-aws-sdk/blob/master/opentracing-aws-sdk-2/src/test/java/io/opentracing/contrib/aws2/Aws2Test.java>
