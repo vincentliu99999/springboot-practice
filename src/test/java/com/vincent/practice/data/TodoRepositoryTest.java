@@ -42,8 +42,6 @@ public class TodoRepositoryTest {
     @Autowired
     TodoRepository repository;
 
-    private static final String EXPECTED_COST = "20";
-    private static final String EXPECTED_PRICE = "50";
     @BeforeAll
     static void initAll() {
       System.out.println("initAll");
@@ -62,6 +60,7 @@ public class TodoRepositoryTest {
           .build();
     }
 
+    // https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/examples-dynamodb-tables.html
     private static void createTable(final DynamoDbClient dbClient) {
       final String tableName = "Todo";
       final String partitionKeyName = "pk";
@@ -108,14 +107,23 @@ public class TodoRepositoryTest {
     // TestEngine with ID 'junit-jupiter' failed to execute tests
     // java.lang.NoClassDefFoundError: org/junit/platform/commons/util/ClassNamePatternFilterUtils
     // https://github.com/junit-team/junit5/issues/1773
+    // TODO repository is null
+    // software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException: Cannot do operations on a non-existent table (Service: DynamoDb, Status Code: 400, Request ID: b591620b-7acc-4acf-93c4-3460842c8b76, Extended Request ID: null)
     @Test
     public void saveItem() throws IllegalAccessException, InstantiationException, ClassNotFoundException, DDBModelException, NOKeyException, ParseException {
-
+      repository = new TodoRepository();
+      createTable(this.ddb);
+      repository.setDynamoDbClient(this.ddb);
         Todo todo = new Todo();
+        todo.setPk("pk");
+        todo.setSk("sk");
         repository.saveItem(todo);
-        // repository.saveTodoItem(todo);
+        repository.saveTodoItem(todo);
 
         Todo result = repository.getTodoItemByPkBySk("pk", "sk");
+        assertNotNull(result);
+
+        System.out.println(result.getPk());
         // assertThat(result.size(), is(greaterThan(0)));
         // assertThat(result.get(0).getCost(), is(equalTo(EXPECTED_COST)));
     }

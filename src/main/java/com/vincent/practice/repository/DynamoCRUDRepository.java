@@ -57,6 +57,10 @@ public abstract class DynamoCRUDRepository<T> {
 	@Autowired
 	private DynamoDbClient ddb;
 
+  public void setDynamoDbClient(DynamoDbClient ddb) {
+    this.ddb = ddb;
+  }
+
 	public DynamoDbClient getDynamoDbClient() {
 		return ddb;
 	}

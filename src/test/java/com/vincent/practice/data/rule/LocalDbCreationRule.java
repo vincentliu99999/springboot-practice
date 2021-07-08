@@ -2,6 +2,7 @@ package com.vincent.practice.data.rule;
 
 import com.amazonaws.services.dynamodbv2.local.main.ServerRunner;
 import com.amazonaws.services.dynamodbv2.local.server.DynamoDBProxyServer;
+import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -25,7 +26,7 @@ public class LocalDbCreationRule implements BeforeEachCallback, AfterEachCallbac
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-      this.stopUnchecked(server);
+      // this.stopUnchecked(server);
     }
 
     @Override
