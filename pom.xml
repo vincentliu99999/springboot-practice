@@ -77,12 +77,12 @@
       <version>2.9.2</version>
     </dependency>
 
-    <!-- <dependency>
+    <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>dynamodb</artifactId>
-    </dependency> -->
+    </dependency>
 
-    <dependency>
+    <!-- <dependency>
         <groupId>com.amazonaws</groupId>
         <artifactId>aws-java-sdk-dynamodb</artifactId>
         <version>${aws-java-sdk-dynamodb.version}</version>
@@ -97,7 +97,7 @@
         <groupId>com.github.derjust</groupId>
         <artifactId>spring-data-dynamodb</artifactId>
         <version>${spring-data-dynamodb.version}</version>
-    </dependency>
+    </dependency> -->
 
     <dependency>
         <groupId>javax.validation</groupId>

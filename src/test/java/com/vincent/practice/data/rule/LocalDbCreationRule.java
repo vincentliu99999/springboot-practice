@@ -11,7 +11,8 @@ public class LocalDbCreationRule implements BeforeEachCallback, AfterEachCallbac
     protected DynamoDBProxyServer server;
 
     public LocalDbCreationRule() {
-        System.setProperty("sqlite4java.library.path", "native-libs");
+        // System.setProperty("sqlite4java.library.path", "native-libs");
+        System.getProperties().setProperty("sqlite4java.library.path", "src/test/resources/libs");
     }
 
     protected void stopUnchecked(DynamoDBProxyServer dynamoDbServer) {

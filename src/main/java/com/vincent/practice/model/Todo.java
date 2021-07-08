@@ -10,14 +10,11 @@ import com.vincent.practice.repository.ddbmapper.annotation.DDBHashKey.KEY_GEN;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBRangeKey;
 import com.vincent.practice.repository.ddbmapper.annotation.DDBTable;
 
-@DynamoDBTable(tableName = "Todo")
 @DDBTable(name = "Todo")
 public class Todo {
 
-  @DynamoDBHashKey
   @DDBHashKey(name = "pk", gen = KEY_GEN.NUM_STR)
   private String pk;
-  @DynamoDBRangeKey
   @DDBRangeKey(name = "sk")
   private String sk;
   private String task;

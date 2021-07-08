@@ -4,3 +4,9 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.amazonaws.services.dynamodbv2.AmazonDynamoDB' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 
 Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'local-db-use' in value "${local-db-use}"
+
+七月 08, 2021 11:14:43 下午 com.almworks.sqlite4java.Internal log
+警告: [sqlite] cannot open DB[9]: com.almworks.sqlite4java.SQLiteException: [-91] cannot load library: com.almworks.sqlite4java.SQLiteException: [-91] sqlite4java cannot find native library
+七月 08, 2021 11:14:43 下午 com.almworks.sqlite4java.Internal log
+嚴重: [sqlite] SQLiteQueue[]: error running job queue
+com.almworks.sqlite4java.SQLiteException: [-91] cannot load library: com.almworks.sqlite4java.SQLiteException: [-91] sqlite4java cannot find native library

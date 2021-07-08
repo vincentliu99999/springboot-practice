@@ -1,41 +1,43 @@
 package com.vincent.practice.data;
 
+import static org.junit.Assert.assertNotNull;
+import java.net.URI;
 import java.text.ParseException;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
-import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
-import com.amazonaws.services.dynamodbv2.model.ResourceInUseException;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.vincent.practice.data.rule.LocalDbCreationRule;
 import com.vincent.practice.model.Todo;
 import com.vincent.practice.repository.TodoRepository;
 import com.vincent.practice.repository.ddbmapper.DDBModelException;
 import com.vincent.practice.repository.ddbmapper.NOKeyException;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
+import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeDefinition;
+import software.amazon.awssdk.services.dynamodb.model.CreateTableRequest;
+import software.amazon.awssdk.services.dynamodb.model.KeySchemaElement;
+import software.amazon.awssdk.services.dynamodb.model.KeyType;
+import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput;
+import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType;
 
 @ExtendWith(LocalDbCreationRule.class) // SpringExtension.class MockitoExtension.class
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("local")
-@TestPropertySource(properties = { "amazon.dynamodb.endpoint=http://localhost:8000/", "amazon.aws.accesskey=test1", "amazon.aws.secretkey=test231" })
+// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+// @ActiveProfiles("local")
+// @TestPropertySource(properties = { "amazon.dynamodb.endpoint=http://localhost:8000/", "amazon.aws.accesskey=test1", "amazon.aws.secretkey=test231" })
 public class TodoRepositoryTest {
     // @ClassRule // ClassRule -> ExtendWith
     public static LocalDbCreationRule dynamoDB = new LocalDbCreationRule();
 
-    private DynamoDBMapper dynamoDBMapper;
+    // private DynamoDBMapper dynamoDBMapper;
 
-    @Autowired
-    private AmazonDynamoDB amazonDynamoDB;
+    // @Autowired
+    // private AmazonDynamoDB amazonDynamoDB;
 
-    @Autowired
-    private DynamoDbClient ddb;
+    // @Autowired
+    private DynamoDbClient ddb = buildClient();
 
     @Autowired
     TodoRepository repository;
@@ -47,23 +49,60 @@ public class TodoRepositoryTest {
       System.out.println("initAll");
     }
 
-    @BeforeEach // Before -> BeforeEach
-    public void setup() throws Exception {
+    private static DynamoDbClient buildClient() {
+      final AwsSessionCredentials awsCreds = AwsSessionCredentials
+          .create("access_key_id", "secret_key_id", "session_token");
+      return DynamoDbClient
+          .builder()
+          .endpointOverride(URI.create("http://localhost:8000"))
+          .region(Region.US_WEST_2)
+          .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+          // .overrideConfiguration(
+          //     ClientOverrideConfiguration.builder().apiCallTimeout(Duration.ofSeconds(1)).build())
+          .build();
+    }
 
-        try {
-            dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB);
+    private static void createTable(final DynamoDbClient dbClient) {
+      final String tableName = "Todo";
+      final String partitionKeyName = "pk";
+      final String RangeKeyName = "sk";
+      final CreateTableRequest createTableRequest = CreateTableRequest.builder()
+          .attributeDefinitions(
+            AttributeDefinition.builder()
+              .attributeName(partitionKeyName)
+              .attributeType(ScalarAttributeType.S)
+              .build(),
+            AttributeDefinition.builder()
+              .attributeName(RangeKeyName)
+              .attributeType(ScalarAttributeType.S)
+              .build())
+          .keySchema(
+            KeySchemaElement.builder()
+              .attributeName(partitionKeyName)
+              .keyType(KeyType.HASH)
+              .build(),
+            KeySchemaElement.builder()
+              .attributeName(RangeKeyName)
+              .keyType(KeyType.RANGE)
+              .build())
+          .provisionedThroughput(
+              ProvisionedThroughput.builder()
+              .readCapacityUnits(10L)
+              .writeCapacityUnits(5L)
+              .build())
+          .tableName(tableName)
+          .build();
+  
+      dbClient.createTable(createTableRequest);
+    }
 
-            CreateTableRequest tableRequest = dynamoDBMapper.generateCreateTableRequest(Todo.class);
-
-            tableRequest.setProvisionedThroughput(new ProvisionedThroughput(1L, 1L));
-
-            amazonDynamoDB.createTable(tableRequest);
-        } catch (ResourceInUseException e) {
-            // Do nothing, table already created
-        }
-
-        // TODO How to handle different environments. i.e. AVOID deleting all entries in ProductInfo on table
-        // dynamoDBMapper.batchDelete((List<ProductInfo>) repository.findAll());
+    @Test
+    public void testSyncClient() {
+      final DynamoDbClient dbClient = buildClient();
+      assertNotNull(this.ddb);
+      createTable(this.ddb);
+      // createTable(dbClient, "table-" + ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE));
+  
     }
 
     // TestEngine with ID 'junit-jupiter' failed to execute tests
