@@ -9,6 +9,7 @@ import com.vincent.practice.repository.TodoRepository;
 import com.vincent.practice.repository.ddbmapper.DDBModelException;
 import com.vincent.practice.repository.ddbmapper.NOKeyException;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,12 +97,12 @@ public class TodoRepositoryTest {
     }
 
     @Test
+    @Disabled("java.io.IOException: Failed to bind to 0.0.0.0/0.0.0.0:8000, Caused by: java.net.BindException: Address already in use")
     public void testSyncClient() {
       final DynamoDbClient dbClient = buildClient();
       assertNotNull(this.ddb);
       createTable(this.ddb);
       // createTable(dbClient, "table-" + ThreadLocalRandom.current().nextInt(Integer.MAX_VALUE));
-  
     }
 
     // TestEngine with ID 'junit-jupiter' failed to execute tests
