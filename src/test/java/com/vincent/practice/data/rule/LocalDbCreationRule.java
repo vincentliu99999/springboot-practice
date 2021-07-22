@@ -26,7 +26,7 @@ public class LocalDbCreationRule implements BeforeEachCallback, AfterEachCallbac
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-      // this.stopUnchecked(server);
+      this.stopUnchecked(server);
     }
 
     @Override

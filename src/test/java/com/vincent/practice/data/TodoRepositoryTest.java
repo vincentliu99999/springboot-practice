@@ -2,7 +2,9 @@ package com.vincent.practice.data;
 
 import static org.junit.Assert.assertNotNull;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
+import com.vincent.practice.config.DynamoDBConfig;
 import com.vincent.practice.data.rule.LocalDbCreationRule;
 import com.vincent.practice.model.Todo;
 import com.vincent.practice.repository.TodoRepository;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import software.amazon.awssdk.auth.credentials.AwsSessionCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -24,6 +27,7 @@ import software.amazon.awssdk.services.dynamodb.model.KeyType;
 import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput;
 import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType;
 
+@ActiveProfiles("test")
 @ExtendWith(LocalDbCreationRule.class) // SpringExtension.class MockitoExtension.class
 // @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 // @ActiveProfiles("local")
@@ -37,15 +41,18 @@ public class TodoRepositoryTest {
     // @Autowired
     // private AmazonDynamoDB amazonDynamoDB;
 
-    // @Autowired
-    private DynamoDbClient ddb = buildClient();
+    @Autowired
+    private static DynamoDbClient ddb;
+    // private DynamoDbClient ddb = buildClient();
 
     @Autowired
     TodoRepository repository;
 
     @BeforeAll
-    static void initAll() {
+    static void initAll() throws URISyntaxException {
       System.out.println("initAll");
+      DynamoDBConfig config = new DynamoDBConfig();
+      ddb = config.buildDDB();
     }
 
     private static DynamoDbClient buildClient() {
